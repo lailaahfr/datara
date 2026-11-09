@@ -62,7 +62,7 @@ async function muatKorelasi() {
       const c = b.sel[f.kunci];
       if (!c) return '<td class="kanan sub">-</td>';
       const a = Math.min(1, Math.abs(c.r) / 0.6);
-      const warna = c.r >= 0 ? `rgba(220,38,38,${(a * 0.28).toFixed(2)})` : `rgba(43,108,176,${(a * 0.28).toFixed(2)})`;
+      const warna = c.r >= 0 ? `rgba(238,127,107,${(a * 0.45).toFixed(2)})` : `rgba(143,196,238,${(a * 0.55).toFixed(2)})`;
       return `<td class="kanan tab-num" style="background:${warna}"><b>${esc(c.teks)}</b><span class="prov">jeda ${c.jeda} bulan</span></td>`;
     }).join("") + "</tr>").join("");
 }

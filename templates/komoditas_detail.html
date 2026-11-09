@@ -48,7 +48,7 @@
 
 {% if tabel_prov %}
 <section class="kartu mb">
-  <div style="padding:1rem 1.2rem;border-bottom:1px solid var(--w200)"><h2 style="font-size:.95rem;font-weight:700;color:var(--w700)">Harga per provinsi</h2><p class="sub">{{ bulan }} · {{ tabel_prov|length }} provinsi · diurutkan dari termurah</p></div>
+  <div class="kartu-tabel-kepala"><h2>Harga per provinsi</h2><p class="sub">{{ bulan }} · {{ tabel_prov|length }} provinsi · diurutkan dari termurah</p></div>
   <div class="gulir" style="max-height:480px;overflow-y:auto">
   <table class="tabel">
     <thead><tr><th>#</th><th>Provinsi</th><th class="kanan">Harga/kg</th><th class="kanan">vs nasional</th></tr></thead>

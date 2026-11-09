@@ -10,8 +10,7 @@
 </div>
 <div id="k-pesan" class="pesan" hidden></div>
 <div id="k-isi" hidden>
-  <h2 class="judul-seksi" style="margin-top:0" id="k-judul"></h2>
-  <p class="sub" id="k-ringkas" style="margin-bottom:1rem"></p>
+  <div class="insight-atas"><h2 id="k-judul"></h2><p id="k-ringkas"></p></div>
   <div class="stat-baris" id="k-tiles" style="grid-template-columns:repeat(3,1fr)"></div>
   <section class="kartu mb">
     <div class="gulir"><table class="tabel" id="k-tabel"><thead><tr><th>Pasar</th><th>Prediksi bulan depan</th><th>Tingkat risiko</th><th>Alasan</th></tr></thead><tbody></tbody></table></div>
@@ -28,13 +27,13 @@
 </div>
 <div class="sumber-grid" id="e-kartu"></div>
 <section class="kartu kartu-pad mb">
-  <div class="kepala-kartu"><div><h2>Inflasi pangan dan bulan Ramadan</h2><p class="sub">Blok oranye muda: bulan Ramadan. Garis putus-putus: bulan Idulfitri.</p></div></div>
+  <div class="kepala-kartu"><div><h2>Inflasi pangan dan bulan Ramadan</h2><p class="sub">Blok hijau muda: bulan Ramadan. Garis putus-putus: bulan Idulfitri.</p></div></div>
   <div id="e-ramadan" class="plot"></div><p class="catatan" id="e-ramadan-cat"></p>
 </section>
 <div class="grid-dua mb">
   <section class="kartu kartu-pad"><div class="kepala-kartu"><div><h2>Curah hujan dan suhu</h2><p class="sub">NASA POWER, rata-rata pasar di wilayah terpilih</p></div></div>
     <div id="e-cuaca" class="plot"></div><div id="e-cuaca-kosong" class="kosong" hidden></div></section>
-  <section class="kartu kartu-pad"><div class="kepala-kartu"><div><h2>Indeks ENSO (ONI)</h2><p class="sub">NOAA CPC. Merah: El Nino, biru: La Nina</p></div></div>
+  <section class="kartu kartu-pad"><div class="kepala-kartu"><div><h2>Indeks ENSO (ONI)</h2><p class="sub">NOAA CPC. Merah muda: El Nino, biru muda: La Nina</p></div></div>
     <div id="e-oni" class="plot"></div><div id="e-oni-kosong" class="kosong" hidden></div></section>
 </div>
 <h2 class="judul-seksi">Hubungan dengan inflasi pangan</h2>
@@ -59,7 +58,7 @@
 </section>
 {% if ada_faktor %}
 <section class="kartu mb">
-  <div style="padding:1rem 1.2rem;border-bottom:1px solid var(--w200)"><h2 style="font-size:.95rem;font-weight:700;color:var(--w700)">Tabel korelasi per komoditas</h2>
+  <div class="kartu-tabel-kepala"><h2>Tabel korelasi per komoditas</h2>
     <p class="sub" id="k-sub">Korelasi tertinggi (nilai mutlak) antara inflasi dan faktor pada jeda 0 sampai 6 bulan.</p></div>
   <div class="gulir"><table class="tabel" id="x-tabel"><thead><tr id="x-kepala"></tr></thead><tbody></tbody></table></div>
   <p class="catatan" style="padding:0 1.2rem 1rem">Angka adalah koefisien korelasi (-1 sampai +1) dan jeda terbaiknya. Ini korelasi, bukan sebab-akibat. Karena tujuh jeda dicoba, nilai terbaik cenderung terlihat lebih kuat dari kenyataannya, dan inflasi tahunan yang berubah pelan mudah tampak berkorelasi dengan faktor musiman. Anomali dihitung terhadap rata-rata bulanan 2007 sampai 2019.</p>

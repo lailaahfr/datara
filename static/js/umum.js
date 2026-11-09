@@ -1,7 +1,7 @@
 const SEMUA_PROV = "Semua Provinsi";
 const SEMUA_KAB = "Semua Kota/Kabupaten";
 const aturPlot = {responsive: true, displaylogo: false};
-const fontPlot = {family: "Plus Jakarta Sans, system-ui, sans-serif", color: "#1a1a18", size: 12};
+const fontPlot = {family: "Figtree, system-ui, sans-serif", color: "#243a32", size: 12};
 const $ = (id) => document.getElementById(id);
 
 function esc(t) {
@@ -36,6 +36,7 @@ function gambar(id, fig) {
   fig.layout.font = fontPlot;
   fig.layout.paper_bgcolor = "rgba(0,0,0,0)";
   fig.layout.plot_bgcolor = "rgba(0,0,0,0)";
+  ["xaxis", "yaxis"].forEach((a) => { fig.layout[a] = Object.assign({gridcolor: "#e1efe6", zerolinecolor: "#cfe3d7"}, fig.layout[a]); });
   return Plotly.react(id, fig.data, fig.layout, aturPlot);
 }
 

@@ -27,10 +27,10 @@ KOL_KABUPATEN = "adm2_name"
 SEMUA_PROV = "Semua Provinsi"
 SEMUA_KAB = "Semua Kota/Kabupaten"
 
-WARNA_HARGA = {"Murah": "#2b6cb0", "Sedang": "#f1e6c8", "Mahal": "#d9480f"}
-WARNA_VOLATILITAS = {"Stabil": "#e4d9f3", "Sedang": "#a98bd4", "Bergejolak": "#5b2a91"}
+WARNA_HARGA = {"Murah": "#8fc4ee", "Sedang": "#f6e7b4", "Mahal": "#ee8a78"}
+WARNA_VOLATILITAS = {"Stabil": "#e3f3ea", "Sedang": "#9fd4b8", "Bergejolak": "#2b7f5e"}
 WARNA_TANPA_DATA = "#dcdcdc"
-WARNA_STATUS = {"Normal": "#2b6cb0", "Waspada": "#f2a900", "Lonjakan": "#d9480f"}
+WARNA_STATUS = {"Normal": "#8fc4ee", "Waspada": "#f6c85f", "Lonjakan": "#ee7f6b"}
 JUMLAH_PRODUK_UJI = 24
 BULAN_PREDIKSI = 6
 NAMA_BULAN = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
@@ -293,7 +293,7 @@ def susun_candlestick(fw, item, tahun, judul):
     o, h, l, c = (fw.groupby("bulan")[f"{p}_{item}"].mean() for p in "ohlc")
     hasil = prediksi_harga(c, BULAN_PREDIKSI, JUMLAH_PRODUK_UJI)
     trace = [{"type": "candlestick", "x": c.index, "open": o.reindex(c.index), "high": h.reindex(c.index), "low": l.reindex(c.index), "close": c,
-              "increasing": {"line": {"color": "#029746"}}, "decreasing": {"line": {"color": "#dc2626"}}, "name": "Harga bulanan"}]
+              "increasing": {"line": {"color": "#e8707a"}, "fillcolor": "#ffd0d0"}, "decreasing": {"line": {"color": "#5b9bd5"}, "fillcolor": "#cfe3f8"}, "name": "Harga bulanan"}]
     akhir = c.index[-1]
     akhir_tampil = hasil["prediksi"].index[-1] if hasil else akhir
     bentuk = []
@@ -302,12 +302,12 @@ def susun_candlestick(fw, item, tahun, judul):
         awal = float(c.iloc[-1])
         trace.append({"type": "scatter", "x": x, "y": [awal] + list(hasil["atas"]), "mode": "lines", "line": {"width": 0}, "hoverinfo": "skip", "showlegend": False})
         trace.append({"type": "scatter", "x": x, "y": [awal] + list(hasil["bawah"]), "mode": "lines", "line": {"width": 0}, "fill": "tonexty",
-                      "fillcolor": "rgba(238,141,0,0.18)", "name": "Rentang ketidakpastian", "hoverinfo": "skip"})
-        trace.append({"type": "scatter", "x": x, "y": [awal] + list(hasil["prediksi"]), "mode": "lines+markers", "line": {"color": "#ee8d00", "dash": "dash"},
+                      "fillcolor": "rgba(43,127,94,0.16)", "name": "Rentang ketidakpastian", "hoverinfo": "skip"})
+        trace.append({"type": "scatter", "x": x, "y": [awal] + list(hasil["prediksi"]), "mode": "lines+markers", "line": {"color": "#2b7f5e", "dash": "dash"},
                       "name": f"Prediksi ({hasil['model']})", "hovertemplate": "%{x|%b %Y}<br>Rp %{y:,.0f}<extra></extra>"})
         bentuk.append({"type": "line", "x0": tgl(akhir), "x1": tgl(akhir), "y0": 0, "y1": 1, "yref": "paper", "line": {"color": "#888888", "dash": "dot", "width": 1}})
     if tahun:
-        bentuk.append({"type": "rect", "x0": f"{tahun}-01-01", "x1": f"{tahun}-12-31", "y0": 0, "y1": 1, "yref": "paper", "fillcolor": "rgba(238,141,0,0.08)",
+        bentuk.append({"type": "rect", "x0": f"{tahun}-01-01", "x1": f"{tahun}-12-31", "y0": 0, "y1": 1, "yref": "paper", "fillcolor": "rgba(43,127,94,0.07)",
                        "line": {"width": 0}, "layer": "below"})
     awal_tampil = tgl(akhir - pd.DateOffset(months=60))
     tata = {"height": 520, "xaxis": {"rangeslider": {"visible": False}, "range": [awal_tampil, tgl(akhir_tampil + pd.DateOffset(months=1))]},
@@ -368,7 +368,7 @@ SLUG = {k: label(k).lower().replace(" ", "-") for k in KOMODITAS}
 KATEGORI = {"eggs": "Protein", "garlic": "Bumbu", "onions": "Bumbu", "meat_beef": "Daging", "meat_chicken": "Daging",
             "meat_chicken_broiler": "Daging", "oil": "Minyak", "rice": "Makanan pokok", "sugar": "Gula"}
 BATAS_STABIL = 0.5
-WARNA_ARAH = {"naik": "#dc2626", "turun": "#029746", "stabil": "#a3a39e"}
+WARNA_ARAH = {"naik": "#d4553c", "turun": "#3f84c8", "stabil": "#70877c"}
 app.jinja_env.globals.update(rupiah=rupiah, dec=dec, label=label, slug_dari=lambda k: SLUG.get(k, k), warna_status=WARNA_STATUS)
 _cache = {}
 
@@ -428,13 +428,29 @@ def halaman(nama, **konteks):
     return render_template(nama + ".html", aktif=nama, **konteks)
 
 
+def kabar_bulan(rk, hitung):
+    atas = max(rk, key=lambda r: r["mom"])
+    bawah = min(rk, key=lambda r: r["mom"])
+    if atas["arah"] == "naik":
+        judul = f"Harga {atas['nama']} naik paling tinggi bulan ini, {dec(atas['mom'])}%."
+    elif bawah["arah"] == "turun":
+        judul = f"Tidak ada komoditas yang naik berarti bulan ini. {bawah['nama']} turun paling banyak, {dec(abs(bawah['mom']))}%."
+    else:
+        judul = "Harga pangan relatif tenang bulan ini."
+    rinci = f"{hitung['naik']} dari {len(rk)} komoditas naik dibanding bulan lalu."
+    if bawah["arah"] == "turun" and atas["arah"] == "naik":
+        rinci += f" {bawah['nama']} turun paling banyak, {dec(abs(bawah['mom']))}%."
+    return {"judul": judul, "rinci": rinci}
+
+
 @app.route("/")
 def beranda():
     if D.galat:
         return halaman("beranda")
     rk = ringkasan_komoditas()
     hitung = {a: sum(1 for r in rk if r["arah"] == a) for a in ("naik", "turun", "stabil")}
-    return halaman("beranda", rk=rk, hitung=hitung, bulan=bulan_id(rk[0]["bulan"]) if rk else "-", n_pasar=D.df[KOL_PASAR].nunique(),
+    perhatian = sorted([r for r in rk if r["status"] in ("Lonjakan", "Waspada")], key=lambda r: -r["inflasi"])[:3]
+    return halaman("beranda", rk=rk, hitung=hitung, kabar=kabar_bulan(rk, hitung), perhatian=perhatian, bulan=bulan_id(rk[0]["bulan"]) if rk else "-", n_pasar=D.df[KOL_PASAR].nunique(),
                    n_prov=D.df[KOL_PROVINSI].nunique(), komoditas=[{"nilai": r["kunci"], "nama": r["nama"]} for r in rk],
                    item_awal="rice" if "rice" in D.ada_item else D.ada_item[0], **opsi_form())
 
@@ -546,9 +562,9 @@ def api_hubungan():
     fg = geser(f, jeda)
     r, n = korelasi(s, f, jeda)
     satuan = {"hujan": "mm/hari", "suhu": "C", "oni": ""}[faktor]
-    data = [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "name": f"Inflasi {label(item)} (y/y, %)", "line": {"color": "#ee8d00", "width": 2.5},
+    data = [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "name": f"Inflasi {label(item)} (y/y, %)", "line": {"color": "#2b7f5e", "width": 2.5},
              "hovertemplate": "%{x|%b %Y}: %{y:.1f}%<extra></extra>"},
-            {"type": "scatter", "x": fg.index, "y": fg.values, "mode": "lines", "yaxis": "y2", "line": {"color": "#2b6cb0", "width": 1.8},
+            {"type": "scatter", "x": fg.index, "y": fg.values, "mode": "lines", "yaxis": "y2", "line": {"color": "#5b9bd5", "width": 2},
              "name": NAMA_FAKTOR[faktor] + (f", digeser {jeda} bulan" if jeda else ""), "hovertemplate": "%{x|%b %Y}: %{y:.2f} " + satuan + "<extra></extra>"}]
     tata = {"height": 380, "separators": ",.", "margin": {"l": 55, "r": 55, "t": 10, "b": 30}, "legend": {"orientation": "h", "x": 0, "y": 1.12},
             "yaxis": {"title": {"text": "Inflasi (%)"}}, "yaxis2": {"title": {"text": NAMA_FAKTOR[faktor]}, "overlaying": "y", "side": "right", "showgrid": False},
@@ -616,7 +632,7 @@ def api_inflasi():
     if s.empty:
         return balas({"kosong": "Tidak ada data inflasi untuk wilayah ini."})
     garis = lambda y, w: {"type": "line", "xref": "paper", "x0": 0, "x1": 1, "y0": y, "y1": y, "line": {"color": WARNA_STATUS[w], "dash": "dash", "width": 1.5}}
-    grafik = {"data": [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "line": {"color": "#ee8d00", "width": 2.5}, "name": "Inflasi y/y",
+    grafik = {"data": [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "line": {"color": "#2b7f5e", "width": 2.5}, "name": "Inflasi y/y",
                         "hovertemplate": "%{x|%b %Y}: %{y:.1f}%<extra></extra>"}],
               "layout": {"height": 340, "separators": ",.", "yaxis": {"title": {"text": "Inflasi (%)"}}, "margin": {"l": 55, "r": 10, "t": 10, "b": 30},
                          "shapes": [garis(BATAS_WASPADA, "Waspada"), garis(BATAS_LONJAKAN, "Lonjakan")]}}
@@ -647,9 +663,9 @@ def api_eksternal():
     akhir = D.df["bulan"].max()
     awal = akhir - pd.DateOffset(years=8)
     kal_tampil = kal[(kal["bulan"] >= awal) & (kal["bulan"] <= akhir + pd.DateOffset(months=1))]
-    bentuk_ramadan = [{"type": "rect", "x0": tgl(b), "x1": tgl(b + pd.DateOffset(months=1)), "y0": 0, "y1": 1, "yref": "paper", "fillcolor": "rgba(14,154,167,0.16)",
+    bentuk_ramadan = [{"type": "rect", "x0": tgl(b), "x1": tgl(b + pd.DateOffset(months=1)), "y0": 0, "y1": 1, "yref": "paper", "fillcolor": "rgba(43,127,94,0.14)",
                        "line": {"width": 0}, "layer": "below"} for b in kal_tampil.loc[kal_tampil["ramadan_ada"] == 1, "bulan"]]
-    bentuk_ied = [{"type": "line", "x0": tgl(b), "x1": tgl(b), "y0": 0, "y1": 1, "yref": "paper", "line": {"color": "#0e9aa7", "width": 1, "dash": "dot"}}
+    bentuk_ied = [{"type": "line", "x0": tgl(b), "x1": tgl(b), "y0": 0, "y1": 1, "yref": "paper", "line": {"color": "#2b7f5e", "width": 1, "dash": "dot"}}
                   for b in kal_tampil.loc[kal_tampil["idulfitri_ada"] == 1, "bulan"]]
     depan = kal[(kal["bulan"] > akhir) & (kal["ramadan_ada"] == 1)]
     isi = {"wilayah": D.nama_wilayah(prov, kab), "sumber": {"cuaca": D.cuaca is not None, "oni": D.oni is not None}}
@@ -660,7 +676,7 @@ def api_eksternal():
         kal_i = kal.set_index("bulan")["ramadan_ada"].reindex(s.index)
         saat, lain = s[kal_i == 1], s[kal_i == 0]
         isi["ramadan_stat"] = {"saat": float(saat.mean()) if len(saat) else None, "lain": float(lain.mean()) if len(lain) else None}
-        isi["grafik_ramadan"] = {"data": [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "line": {"color": "#0f2a43", "width": 2},
+        isi["grafik_ramadan"] = {"data": [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "line": {"color": "#243a32", "width": 2},
                                            "name": "Inflasi indeks pangan (y/y)", "hovertemplate": "%{x|%b %Y}: %{y:.1f}%<extra></extra>"}],
                                  "layout": {"height": 340, "separators": ",.", "margin": {"l": 55, "r": 10, "t": 10, "b": 30}, "yaxis": {"title": {"text": "Inflasi (%)"}},
                                             "shapes": bentuk_ramadan + bentuk_ied}}
@@ -678,10 +694,10 @@ def api_eksternal():
             terakhir = m.index[-1]
             isi["cuaca_kartu"] = {"bulan": bulan_id(terakhir), "hujan": float(m["hujan"].iloc[-1]), "suhu": float(m["suhu"].iloc[-1]),
                                   "hujan_normal": float(nb.get(terakhir.month, np.nan))}
-            isi["grafik_cuaca"] = {"data": [{"type": "bar", "x": m.index, "y": m["hujan"], "name": "Curah hujan (mm/hari)", "marker": {"color": "#5aa9d6"},
+            isi["grafik_cuaca"] = {"data": [{"type": "bar", "x": m.index, "y": m["hujan"], "name": "Curah hujan (mm/hari)", "marker": {"color": "#a9cdf2"},
                                              "hovertemplate": "%{x|%b %Y}: %{y:.1f} mm/hari<extra></extra>"},
                                             {"type": "scatter", "x": m.index, "y": m["suhu"], "mode": "lines", "name": "Suhu (C)", "yaxis": "y2",
-                                             "line": {"color": "#d9480f", "width": 2}, "hovertemplate": "%{x|%b %Y}: %{y:.1f} C<extra></extra>"}],
+                                             "line": {"color": "#ee7f6b", "width": 2}, "hovertemplate": "%{x|%b %Y}: %{y:.1f} C<extra></extra>"}],
                                    "layout": {"height": 340, "separators": ",.", "margin": {"l": 55, "r": 55, "t": 10, "b": 30}, "legend": {"orientation": "h", "y": 1.12},
                                               "yaxis": {"title": {"text": "Hujan (mm/hari)"}}, "yaxis2": {"title": {"text": "Suhu (C)"}, "overlaying": "y", "side": "right",
                                                                                                           "showgrid": False}}}
@@ -692,11 +708,11 @@ def api_eksternal():
             nilai = float(o["oni"].iloc[-1])
             fase = "El Nino" if nilai >= 0.5 else "La Nina" if nilai <= -0.5 else "Netral"
             isi["oni_kartu"] = {"bulan": bulan_id(o["bulan"].iloc[-1]), "nilai": nilai, "teks": dec(nilai, 1, True), "fase": fase}
-            isi["grafik_oni"] = {"data": [{"type": "bar", "x": o["bulan"], "y": o["oni"], "marker": {"color": ["#d9480f" if v >= 0.5 else "#2b6cb0" if v <= -0.5 else "#9aa5b1" for v in o["oni"]]},
+            isi["grafik_oni"] = {"data": [{"type": "bar", "x": o["bulan"], "y": o["oni"], "marker": {"color": ["#ee8a78" if v >= 0.5 else "#8fc4ee" if v <= -0.5 else "#9aa5b1" for v in o["oni"]]},
                                            "name": "ONI", "hovertemplate": "%{x|%b %Y}: %{y:.1f}<extra></extra>"}],
                                  "layout": {"height": 300, "separators": ",.", "margin": {"l": 55, "r": 10, "t": 10, "b": 30}, "yaxis": {"title": {"text": "ONI"}},
-                                            "shapes": [{"type": "line", "xref": "paper", "x0": 0, "x1": 1, "y0": 0.5, "y1": 0.5, "line": {"color": "#d9480f", "dash": "dash", "width": 1}},
-                                                       {"type": "line", "xref": "paper", "x0": 0, "x1": 1, "y0": -0.5, "y1": -0.5, "line": {"color": "#2b6cb0", "dash": "dash", "width": 1}}]}}
+                                            "shapes": [{"type": "line", "xref": "paper", "x0": 0, "x1": 1, "y0": 0.5, "y1": 0.5, "line": {"color": "#ee8a78", "dash": "dash", "width": 1}},
+                                                       {"type": "line", "xref": "paper", "x0": 0, "x1": 1, "y0": -0.5, "y1": -0.5, "line": {"color": "#8fc4ee", "dash": "dash", "width": 1}}]}}
     return balas(isi)
 
 

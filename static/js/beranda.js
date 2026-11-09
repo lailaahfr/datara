@@ -1,39 +1,7 @@
-const grid = $("grid-kom");
-let urutan = "naik";
-
-function terapkanUrutan() {
-  const kartu = Array.from(grid.children);
-  const kunci = {
-    naik: (a, b) => b.dataset.mom - a.dataset.mom,
-    turun: (a, b) => a.dataset.mom - b.dataset.mom,
-    mahal: (a, b) => b.dataset.harga - a.dataset.harga,
-    murah: (a, b) => a.dataset.harga - b.dataset.harga,
-    az: (a, b) => a.dataset.nama.localeCompare(b.dataset.nama),
-  }[urutan];
-  kartu.sort(kunci).forEach((k) => grid.appendChild(k));
-}
-
-function terapkanCari() {
-  const q = $("cari").value.trim().toLowerCase();
-  let ada = 0;
-  Array.from(grid.children).forEach((k) => {
-    const cocok = !q || k.dataset.nama.includes(q);
-    k.style.display = cocok ? "" : "none";
-    if (cocok) ada++;
-  });
-  $("kosong-cari").hidden = ada > 0;
-}
-
-document.querySelectorAll("#urutan .pil").forEach((b) => b.addEventListener("click", () => {
-  document.querySelectorAll("#urutan .pil").forEach((x) => x.classList.toggle("aktif", x === b));
-  urutan = b.dataset.urut;
-  terapkanUrutan();
-}));
-$("cari").addEventListener("input", terapkanCari);
-terapkanUrutan();
+function itemTerpilih() { return $("h-item").value; }
 
 async function muatPeta() {
-  const params = {item: $("h-item").value, tahun: $("h-tahun").value, prov: $("h-prov").value, kab: $("h-kab").value,
+  const params = {item: itemTerpilih(), tahun: $("h-tahun").value, prov: $("h-prov").value, kab: $("h-kab").value,
                   lapisan: document.querySelector("input[name=lapisan]:checked").value};
   memuat("h-peta", true);
   let d;
@@ -64,7 +32,25 @@ async function muatPeta() {
   }).join("") : '<tr><td colspan="3" class="sub">Belum ada data pasar.</td></tr>';
 }
 
-["h-item", "h-tahun", "h-kab"].forEach((id) => $(id).addEventListener("change", muatPeta));
+async function muatRisiko() {
+  const kotak = $("risiko");
+  try {
+    const d = await ambil("/api/keputusan", {prov: SEMUA_PROV});
+    if (d.kosong || !d.tabel.length) { kotak.innerHTML = '<p class="sub" style="padding:.7rem 0">Data belum cukup untuk daftar pasar.</p>'; return; }
+    kotak.innerHTML = d.tabel.slice(0, 3).map((r) =>
+      `<a href="/insight"><span>${esc(r.pasar)}<small>${esc(r.provinsi)}</small></span><b>${r.skor.toFixed(0)}/100</b></a>`).join("");
+  } catch (e) {
+    kotak.innerHTML = '<p class="sub" style="padding:.7rem 0">Daftar pasar belum bisa dimuat.</p>';
+  }
+}
+
+document.querySelectorAll("#chips-kom .chip-kom").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll("#chips-kom .chip-kom").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+  $("h-item").value = b.dataset.item;
+  muatPeta();
+}));
+["h-tahun", "h-kab"].forEach((id) => $(id).addEventListener("change", muatPeta));
 document.querySelectorAll("input[name=lapisan]").forEach((r) => r.addEventListener("change", muatPeta));
 $("h-prov").addEventListener("change", async () => { await isiKab("h-prov", "h-kab"); muatPeta(); });
 muatPeta();
+muatRisiko();
