@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block judul %}Beranda{% endblock %}
+{% block isi %}
+<div class="judul-hal">
+  <h1>Harga Pangan Indonesia Terkini</h1>
+  <p>{{ bulan }} · Rata-rata nasional dari {{ n_pasar }} pasar di {{ n_prov }} provinsi · {{ hero }}</p>
+</div>
+
+<div class="stat-baris">
+  <div class="kartu stat"><div class="lbl">Komoditas</div><div class="angka">{{ rk|length }}</div><div class="ket">dipantau</div></div>
+  <div class="kartu stat"><div class="lbl"><i style="background:var(--merah)"></i>Naik</div><div class="angka naik">{{ hitung.naik }}</div><div class="ket">komoditas, dari bulan lalu</div></div>
+  <div class="kartu stat"><div class="lbl"><i style="background:var(--hijau)"></i>Turun</div><div class="angka turun">{{ hitung.turun }}</div><div class="ket">komoditas, dari bulan lalu</div></div>
+  <div class="kartu stat"><div class="lbl"><i style="background:var(--w300)"></i>Stabil</div><div class="angka stabil">{{ hitung.stabil }}</div><div class="ket">perubahan di bawah 0,5%</div></div>
+</div>
+
+<div class="kontrol" id="urutan" role="group" aria-label="Urutkan">
+  <button class="pil aktif" data-urut="naik">Kenaikan Tertinggi</button>
+  <button class="pil" data-urut="turun">Penurunan Tertinggi</button>
+  <button class="pil" data-urut="mahal">Harga Tertinggi</button>
+  <button class="pil" data-urut="murah">Harga Terendah</button>
+  <button class="pil" data-urut="az">A-Z</button>
+</div>
+<div class="cari">
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
+  <input type="text" id="cari" placeholder="Cari komoditas, misalnya bawang, daging, atau beras..." aria-label="Cari komoditas">
+</div>
+
+<div class="grid-kom" id="grid-kom">
+{% for r in rk %}
+  <a class="kartu kom" href="/komoditas/{{ r.slug }}" data-nama="{{ r.nama|lower }}" data-mom="{{ r.mom }}" data-harga="{{ r.harga }}">
+    <div class="atas"><span class="kat">{{ r.kategori }}</span>
+      <span class="lencana {{ r.arah }}">{{ '&#9650;'|safe if r.arah == 'naik' else '&#9660;'|safe if r.arah == 'turun' else '&#9644;'|safe }} {{ dec(r.mom|abs, 1) }}%</span></div>
+    <h3>{{ r.nama }}</h3>
+    <div class="bawah">
+      <div><div class="harga tab-num">{{ rupiah(r.harga) }} <small>/kg</small></div></div>
+      <div class="spark">{{ r.spark|safe }}</div>
+    </div>
+    {% if r.inflasi is not none %}<div class="inf">Inflasi tahunan {{ dec(r.inflasi) }}% <span class="status {{ r.status }}">{{ r.status }}</span></div>{% endif %}
+  </a>
+{% endfor %}
+</div>
+<p class="sub" id="kosong-cari" hidden>Tidak ada komoditas yang cocok dengan pencarian.</p>
+
+<section class="kartu kartu-pad mb" aria-labelledby="judul-peta">
+  <div class="kepala-kartu">
+    <div><h2 id="judul-peta">Peta Harga per Wilayah</h2><p class="sub" id="peta-sub">Memuat...</p></div>
+    <div class="segmen" role="group" aria-label="Lapisan peta">
+      <label><input type="radio" name="lapisan" value="Tingkat harga" checked><span>Tingkat harga</span></label>
+      <label><input type="radio" name="lapisan" value="Volatilitas"><span>Gejolak harga</span></label>
+    </div>
+  </div>
+  <div class="filter mb" style="margin-bottom:1rem">
+    <label>Komoditas <select id="h-item">{% for k in komoditas %}<option value="{{ k.nilai }}" {{ 'selected' if k.nilai == item_awal }}>{{ k.nama }}</option>{% endfor %}</select></label>
+    <label>Tahun <select id="h-tahun">{% for t in tahun %}<option>{{ t }}</option>{% endfor %}</select></label>
+    <label>Provinsi <select id="h-prov"><option value="Semua Provinsi">Semua Provinsi</option>{% for p in provinsi %}<option value="{{ p.nilai }}">{{ p.nama }}</option>{% endfor %}</select></label>
+    <label>Kota/Kabupaten <select id="h-kab"><option value="Semua Kota/Kabupaten">Semua Kota/Kabupaten</option></select></label>
+  </div>
+  <div id="h-pesan" class="pesan" hidden></div>
+  <div class="grid-peta">
+    <div>
+      <div id="h-legenda" class="legenda"></div>
+      <div id="h-peta" class="plot plot-peta"></div>
+      <p id="h-catatan" class="catatan"></p>
+    </div>
+    <div class="peta-tabel">
+      <table class="tabel" id="h-tabel"><thead><tr><th>Wilayah</th><th class="kanan">Harga/kg</th><th class="kanan" id="h-kolom">Selisih</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</section>
+<p class="data-akhir">Data terakhir: {{ bulan }} · Sumber: World Bank RTFP</p>
+{% endblock %}
+{% block skrip %}<script src="{{ url_for('static', filename='js/beranda.js') }}"></script>{% endblock %}

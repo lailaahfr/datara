@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block judul %}{{ r.nama }}{% endblock %}
+{% block isi %}
+<div class="remah"><a href="/">Beranda</a><span>/</span><a href="/komoditas">Komoditas</a><span>/</span><b>{{ r.nama }}</b></div>
+<div class="judul-hal">
+  <h1>{{ r.nama }}</h1>
+  <p>{{ r.kategori }} · {{ bulan }}</p>
+  <div class="ringkas-harga">
+    <span class="besar tab-num">{{ rupiah(r.harga) }}</span><span class="sub">per kg, rata-rata nasional</span>
+    <span class="lencana {{ r.arah }}">{{ ('+' if r.mom > 0 else '') ~ dec(r.mom) }}% dari bulan lalu</span>
+    {% if r.yoy is not none %}<span class="lencana {{ 'naik' if r.yoy > 0.5 else 'turun' if r.yoy < -0.5 else 'stabil' }}">{{ ('+' if r.yoy > 0 else '') ~ dec(r.yoy) }}% dari tahun lalu</span>{% endif %}
+    {% if r.status %}<span class="status {{ r.status }}">Inflasi {{ dec(r.inflasi) }}%, {{ r.status }}</span>{% endif %}
+  </div>
+</div>
+
+{% if stat %}
+<div class="stat-baris">
+  <div class="kartu stat"><div class="lbl">Termurah</div><div class="angka turun tab-num" style="font-size:1.15rem">{{ rupiah(stat.harga_murah) }}</div><div class="ket">{{ stat.murah }}, {{ stat.prov_murah }}</div></div>
+  <div class="kartu stat"><div class="lbl">Termahal</div><div class="angka naik tab-num" style="font-size:1.15rem">{{ rupiah(stat.harga_mahal) }}</div><div class="ket">{{ stat.mahal }}, {{ stat.prov_mahal }}</div></div>
+  <div class="kartu stat"><div class="lbl">Selisih</div><div class="angka tab-num" style="font-size:1.15rem">{{ rupiah(stat.selisih) }}</div><div class="ket">{{ dec(stat.selisih_pct) }}% antarpasar</div></div>
+  <div class="kartu stat"><div class="lbl">Pasar</div><div class="angka tab-num" style="font-size:1.15rem">{{ stat.n }}</div><div class="ket">punya harga bulan ini</div></div>
+</div>
+{% endif %}
+
+<section class="kartu kartu-pad mb">
+  <div class="kepala-kartu">
+    <div><h2>Tren harga dan prediksi 6 bulan</h2><p class="sub" id="d-sub">Setiap batang adalah satu bulan harga.</p></div>
+    <div class="filter">
+      <label>Provinsi <select id="d-prov"><option value="Semua Provinsi">Seluruh Indonesia</option>{% for p in provinsi %}<option value="{{ p.nilai }}">{{ p.nama }}</option>{% endfor %}</select></label>
+      <label>Kota/Kabupaten <select id="d-kab"><option value="Semua Kota/Kabupaten">Semua</option></select></label>
+    </div>
+  </div>
+  <div id="d-chip" class="chip-baris"></div>
+  <div id="d-candle" class="plot"></div>
+  <details class="lipat"><summary>Cara membaca grafik ini</summary><p class="catatan" id="d-catatan"></p></details>
+</section>
+
+<div class="grid-dua mb">
+  <section class="kartu kartu-pad">
+    <div class="kepala-kartu"><div><h2>Inflasi tahunan</h2><p class="sub">Garis putus-putus: batas waspada 5% dan lonjakan 10%</p></div></div>
+    <div id="d-inflasi" class="plot"></div>
+  </section>
+  <section class="kartu kartu-pad">
+    <div class="kepala-kartu"><div><h2>10 provinsi dengan inflasi tertinggi</h2><p class="sub" id="d-bulan-rank"></p></div></div>
+    <div id="d-ranking" class="plot"></div>
+  </section>
+</div>
+
+{% if tabel_prov %}
+<section class="kartu mb">
+  <div style="padding:1rem 1.2rem;border-bottom:1px solid var(--w200)"><h2 style="font-size:.95rem;font-weight:700;color:var(--w700)">Harga per provinsi</h2><p class="sub">{{ bulan }} · {{ tabel_prov|length }} provinsi · diurutkan dari termurah</p></div>
+  <div class="gulir" style="max-height:480px;overflow-y:auto">
+  <table class="tabel">
+    <thead><tr><th>#</th><th>Provinsi</th><th class="kanan">Harga/kg</th><th class="kanan">vs nasional</th></tr></thead>
+    <tbody>
+    {% for p in tabel_prov %}
+      <tr><td class="sub">{{ loop.index }}</td><td class="nama">{{ p.nama }}{% if loop.first %} <span class="lencana turun">Termurah</span>{% endif %}{% if loop.last %} <span class="lencana naik">Termahal</span>{% endif %}</td>
+        <td class="kanan tab-num"><b>{{ rupiah(p.harga) }}</b></td>
+        <td class="kanan tab-num {{ 'naik' if p.vs > 2 else 'turun' if p.vs < -2 else 'stabil' }}">{{ ('+' if p.vs > 0 else '') ~ dec(p.vs) }}%</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+{% block skrip_data %}<script>window.ITEM = "{{ r.kunci }}";</script>{% endblock %}
+{% block skrip %}<script src="{{ url_for('static', filename='js/detail.js') }}"></script>{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block judul %}Insight{% endblock %}
+{% block isi %}
+<div class="judul-hal">
+  <h1>Insight</h1>
+  <p>Pasar yang berisiko mengalami lonjakan harga bulan depan, serta faktor cuaca, iklim, dan kalender yang ikut dipakai model.</p>
+</div>
+<div class="kartu kartu-pad mb">
+  <div class="filter"><label>Provinsi <select id="k-prov"><option value="Semua Provinsi">Semua Provinsi</option>{% for p in provinsi %}<option value="{{ p.nilai }}">{{ p.nama }}</option>{% endfor %}</select></label></div>
+</div>
+<div id="k-pesan" class="pesan" hidden></div>
+<div id="k-isi" hidden>
+  <h2 class="judul-seksi" style="margin-top:0" id="k-judul"></h2>
+  <p class="sub" id="k-ringkas" style="margin-bottom:1rem"></p>
+  <div class="stat-baris" id="k-tiles" style="grid-template-columns:repeat(3,1fr)"></div>
+  <section class="kartu mb">
+    <div class="gulir"><table class="tabel" id="k-tabel"><thead><tr><th>Pasar</th><th>Prediksi bulan depan</th><th>Tingkat risiko</th><th>Alasan</th></tr></thead><tbody></tbody></table></div>
+    <p style="padding:.8rem 1rem"><a id="k-unduh" class="tombol" href="#">Unduh seluruh daftar (CSV)</a></p>
+  </section>
+</div>
+<h2 class="judul-seksi" id="faktor-eksternal">Faktor eksternal</h2>
+<p class="sub" style="margin-bottom:1rem">Data tambahan ini dipakai sebagai fitur model prediksi pada daftar pasar di atas.</p>
+<div class="kartu kartu-pad mb">
+  <div class="filter">
+    <label>Provinsi <select id="e-prov"><option value="Semua Provinsi">Seluruh Indonesia</option>{% for p in provinsi %}<option value="{{ p.nilai }}">{{ p.nama }}</option>{% endfor %}</select></label>
+    <label>Kota/Kabupaten <select id="e-kab"><option value="Semua Kota/Kabupaten">Semua</option></select></label>
+  </div>
+</div>
+<div class="sumber-grid" id="e-kartu"></div>
+<section class="kartu kartu-pad mb">
+  <div class="kepala-kartu"><div><h2>Inflasi pangan dan bulan Ramadan</h2><p class="sub">Blok oranye muda: bulan Ramadan. Garis putus-putus: bulan Idulfitri.</p></div></div>
+  <div id="e-ramadan" class="plot"></div><p class="catatan" id="e-ramadan-cat"></p>
+</section>
+<div class="grid-dua mb">
+  <section class="kartu kartu-pad"><div class="kepala-kartu"><div><h2>Curah hujan dan suhu</h2><p class="sub">NASA POWER, rata-rata pasar di wilayah terpilih</p></div></div>
+    <div id="e-cuaca" class="plot"></div><div id="e-cuaca-kosong" class="kosong" hidden></div></section>
+  <section class="kartu kartu-pad"><div class="kepala-kartu"><div><h2>Indeks ENSO (ONI)</h2><p class="sub">NOAA CPC. Merah: El Nino, biru: La Nina</p></div></div>
+    <div id="e-oni" class="plot"></div><div id="e-oni-kosong" class="kosong" hidden></div></section>
+</div>
+<h2 class="judul-seksi">Hubungan dengan inflasi pangan</h2>
+<p class="sub" style="margin-bottom:1rem">Faktor eksternal dibandingkan langsung dengan inflasi komoditas pada sumbu waktu yang sama. Wilayah mengikuti filter di atas.</p>
+<section class="kartu kartu-pad mb">
+  {% if ada_faktor %}
+  <div class="kepala-kartu"><div><h2>Grafik tumpuk</h2><p class="sub" id="h-sub">Faktor digeser maju sesuai jeda: kolom jeda 3 berarti faktor tiga bulan sebelumnya disejajarkan dengan inflasi hari ini.</p></div>
+    <div class="filter">
+      <label>Komoditas <select id="x-item">{% for k in item_inflasi %}<option value="{{ k.nilai }}" {{ 'selected' if k.nilai == 'onions' }}>{{ k.nama }}</option>{% endfor %}</select></label>
+      <label>Faktor <select id="x-faktor">
+        {% if 'hujan' in ada_faktor %}<option value="hujan">Anomali curah hujan</option><option value="suhu">Anomali suhu</option>{% endif %}
+        {% if 'oni' in ada_faktor %}<option value="oni">Indeks ENSO (ONI)</option>{% endif %}</select></label>
+      <label>Jeda <select id="x-jeda">{% for j in range(0, 7) %}<option value="{{ j }}" {{ 'selected' if j == 3 }}>{{ j }} bulan</option>{% endfor %}</select></label>
+    </div>
+  </div>
+  <div id="x-chip" class="chip-baris"></div>
+  <div id="x-grafik" class="plot"></div>
+  <p class="catatan" id="x-catatan"></p>
+  {% else %}
+  <div class="kosong">Data cuaca (NASA POWER) dan ENSO (NOAA ONI) belum diambil, jadi grafik ini belum bisa ditampilkan. Jalankan <code>notebooks/9_data_tambahan.ipynb</code> lalu restart server.</div>
+  {% endif %}
+</section>
+{% if ada_faktor %}
+<section class="kartu mb">
+  <div style="padding:1rem 1.2rem;border-bottom:1px solid var(--w200)"><h2 style="font-size:.95rem;font-weight:700;color:var(--w700)">Tabel korelasi per komoditas</h2>
+    <p class="sub" id="k-sub">Korelasi tertinggi (nilai mutlak) antara inflasi dan faktor pada jeda 0 sampai 6 bulan.</p></div>
+  <div class="gulir"><table class="tabel" id="x-tabel"><thead><tr id="x-kepala"></tr></thead><tbody></tbody></table></div>
+  <p class="catatan" style="padding:0 1.2rem 1rem">Angka adalah koefisien korelasi (-1 sampai +1) dan jeda terbaiknya. Ini korelasi, bukan sebab-akibat. Karena tujuh jeda dicoba, nilai terbaik cenderung terlihat lebih kuat dari kenyataannya, dan inflasi tahunan yang berubah pelan mudah tampak berkorelasi dengan faktor musiman. Anomali dihitung terhadap rata-rata bulanan 2007 sampai 2019.</p>
+</section>
+{% endif %}
+{% endblock %}
+{% block skrip %}<script src="{{ url_for('static', filename='js/peringatan.js') }}"></script><script src="{{ url_for('static', filename='js/insight.js') }}"></script>{% endblock %}

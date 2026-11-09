@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block judul %}DATARA{% endblock %} | DATARA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <div class="wadah">
+    <a class="merek" href="/" aria-label="DATARA beranda">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#ee8d00"/><path d="M9 22V10h5a6 6 0 0 1 0 12H9z" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/><circle cx="23.5" cy="9" r="2.4" fill="#029746"/></svg>
+      <span>Datara<b>.</b></span>
+    </a>
+    <div class="menu" id="menu">
+      <a href="/" class="{{ 'aktif' if aktif == 'beranda' }}">Beranda</a>
+      <a href="/komoditas" class="{{ 'aktif' if aktif in ('komoditas', 'komoditas_detail') }}">Komoditas</a>
+      <a href="/insight" class="{{ 'aktif' if aktif == 'insight' }}">Insight</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+<main class="wadah halaman">
+{% block isi %}{% endblock %}
+</main>
+<footer class="kaki"><div class="wadah">Datara, Kelompok 10, Analisis Big Data. Sumber data: World Bank RTFP, NASA POWER, NOAA CPC, GADM 4.1.</div></footer>
+{% block skrip_data %}{% endblock %}
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='js/umum.js') }}"></script>
+{% block skrip %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block judul %}Komoditas{% endblock %}
+{% block isi %}
+<div class="judul-hal">
+  <h1>Komoditas</h1>
+  <p>Harga dan inflasi tahunan {{ rk|length }} komoditas pangan, {{ bulan }}. Urut dari inflasi tertinggi. Klik baris untuk melihat tren dan prediksi.</p>
+</div>
+<section class="kartu mb">
+  <div class="gulir">
+  <table class="tabel">
+    <thead><tr><th>Komoditas</th><th class="kanan">Harga rata-rata</th><th class="kanan">vs bulan lalu</th><th class="kanan">vs tahun lalu</th><th class="kanan">Inflasi tahunan</th><th>Status</th><th>12 bulan</th></tr></thead>
+    <tbody>
+    {% for r in rk %}
+      <tr onclick="location.href='/komoditas/{{ r.slug }}'" style="cursor:pointer">
+        <td><a class="nama" href="/komoditas/{{ r.slug }}">{{ r.nama }}</a><span class="prov">{{ r.kategori }}</span></td>
+        <td class="kanan tab-num"><b>{{ rupiah(r.harga) }}</b>/kg</td>
+        <td class="kanan"><span class="lencana {{ r.arah }}">{{ ('+' if r.mom > 0 else '') ~ dec(r.mom) }}%</span></td>
+        <td class="kanan tab-num">{% if r.yoy is not none %}{{ ('+' if r.yoy > 0 else '') ~ dec(r.yoy) }}%{% else %}-{% endif %}</td>
+        <td class="kanan tab-num"><b>{% if r.inflasi is not none %}{{ dec(r.inflasi) }}%{% else %}-{% endif %}</b></td>
+        <td>{% if r.status %}<span class="status {{ r.status }}">{{ r.status }}</span>{% endif %}</td>
+        <td style="min-width:90px">{{ r.spark|safe }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+<p class="catatan">Status inflasi: Normal di bawah 5%, Waspada 5% sampai di bawah 10%, Lonjakan 10% ke atas (ambang ditetapkan kelompok).</p>
+{% endblock %}
