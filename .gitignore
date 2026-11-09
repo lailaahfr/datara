@@ -4,6 +4,3 @@ __pycache__/
 .venv/
 venv/
 .DS_Store
-data/raw/
-data/geo/gadm41_IDN_1.json
-data/geo/gadm41_IDN_2.json

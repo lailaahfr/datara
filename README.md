@@ -57,7 +57,7 @@ Skor = 0,6 x risiko (0,5 x P(Waspada) + 1,0 x P(Lonjakan)) + 0,2 x momentum infl
 
 ## Hasil Eksperimen
 
-Klasifikasi status inflasi pada data uji (hanya data RTFP; hasil dengan cuaca dan ENSO muncul setelah `notebooks/9_data_tambahan.ipynb` dijalankan):
+Klasifikasi status inflasi pada data uji (hanya data RTFP; hasil dengan cuaca dan ENSO muncul setelah `notebooks/8_data_tambahan.ipynb` dijalankan):
 
 | Model atau baseline        | Akurasi | F1 (macro) |
 | -------------------------- | ------: | ---------: |
@@ -84,10 +84,10 @@ pip install -r requirements.txt
 Taruh data mentah di `data/raw/IDN_RTFP_mkt_2007_2026-08-24.csv`, lalu jalankan secara berurutan:
 ```text
 notebooks/1_cleaning.ipynb          -> data/processed/data_bersih.csv
-notebooks/9_data_tambahan.ipynb     -> data/external/  (perlu internet, boleh dilewati)
-notebooks/8_peta_wilayah.ipynb      -> data/geo/ dan data/processed/pasar_wilayah.csv
+notebooks/8_data_tambahan.ipynb     -> data/external/  (perlu internet, boleh dilewati)
+notebooks/7_peta_wilayah.ipynb      -> data/geo/ dan data/processed/pasar_wilayah.csv
 ```
-Notebook 2 sampai 7 bersifat analisis dan bahan laporan; dashboard melatih modelnya sendiri sehingga tidak harus menunggu notebook itu.
+Notebook 2 sampai 6 bersifat analisis dan bahan laporan; dashboard melatih modelnya sendiri sehingga tidak harus menunggu notebook itu.
 
 ### 3. Jalankan dashboard
 ```bash
@@ -101,9 +101,9 @@ Model halaman Insight dilatih di latar belakang saat server menyala (sekitar 10 
 
 ## Halaman Dashboard
 
-- **Beranda** (`/`): ringkasan nasional (jumlah komoditas, berapa yang naik, turun, stabil), kartu sembilan komoditas dengan harga, perubahan bulanan, inflasi tahunan, dan grafik mini 12 bulan (bisa diurutkan dan dicari), serta peta harga per wilayah dengan filter komoditas, tahun, provinsi, dan kota/kabupaten, lengkap dengan tabel wilayah di sampingnya.
+- **Beranda** (`/`): satu kalimat ringkasan bulan ini (komoditas yang naik paling tinggi) dengan jumlah komoditas naik, turun, dan stabil; peta harga per wilayah dengan pilihan komoditas, tahun, provinsi, dan kota/kabupaten (tabel wilayah bisa dibuka di bawah peta); panel samping berisi komoditas yang perlu diperhatikan dan tiga pasar paling berisiko bulan depan; serta sembilan kartu kecil komoditas berwarna menurut arah harga.
 - **Komoditas** (`/komoditas`): tabel perbandingan harga dan inflasi semua komoditas. Tiap komoditas punya halaman detail (`/komoditas/beras`) berisi pasar termurah dan termahal, grafik candlestick dengan prediksi 6 bulan dan pita ketidakpastian, grafik inflasi y/y, peringkat 10 provinsi dengan inflasi tertinggi, dan tabel harga per provinsi.
-- **Insight** (`/insight`): 10 pasar dengan risiko lonjakan tertinggi bulan depan (prediksi, skor, alasan) sebagai peringatan dini agar intervensi seperti operasi pasar dapat diantisipasi lebih awal, dengan filter provinsi dan unduhan CSV; di bawahnya faktor eksternal yang dipakai model: inflasi pangan dengan penanda Ramadan, curah hujan dan suhu NASA POWER, serta indeks ENSO NOAA.
+- **Insight** (`/insight`): 10 pasar dengan risiko lonjakan tertinggi bulan depan (prediksi, skor, alasan) sebagai peringatan dini agar intervensi seperti operasi pasar dapat diantisipasi lebih awal, dengan filter provinsi dan unduhan CSV; di bawahnya faktor eksternal yang dipakai model: inflasi pangan dengan penanda Ramadan, curah hujan dan suhu NASA POWER, serta indeks ENSO NOAA, ditambah grafik tumpuk dan tabel korelasi per komoditas. Hasil pengujiannya: korelasi lemah sampai sedang dan fitur eksternal tidak menaikkan F1 model.
 
 ---
 

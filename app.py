@@ -100,7 +100,7 @@ class Data:
             self.galat = "File data/processed/data_bersih.csv belum ada. Jalankan notebooks/1_cleaning.ipynb dulu."
             return
         if not all(os.path.exists(p) for p in (PASAR_WILAYAH_PATH, GEO_PROVINSI_PATH, GEO_KAB_PATH)):
-            self.galat = "Data peta belum ada. Jalankan notebooks/8_peta_wilayah.ipynb dulu."
+            self.galat = "Data peta belum ada. Jalankan notebooks/7_peta_wilayah.ipynb dulu."
             return
         df = pd.read_csv(DATA_PATH)
         df.columns = [c.strip().lstrip("﻿") for c in df.columns]
@@ -552,7 +552,7 @@ def api_hubungan():
     if kol not in D.df.columns:
         abort(400)
     if faktor not in faktor_tersedia():
-        return balas({"kosong": "Data faktor ini belum diambil. Jalankan notebooks/9_data_tambahan.ipynb lalu restart server."})
+        return balas({"kosong": "Data faktor ini belum diambil. Jalankan notebooks/8_data_tambahan.ipynb lalu restart server."})
     fw = D.saring(prov, kab)
     pasar = None if (prov == SEMUA_PROV and kab == SEMUA_KAB) else fw[KOL_PASAR].unique()
     f = seri_faktor(faktor, pasar)
@@ -582,7 +582,7 @@ def api_korelasi():
     prov, kab = baca_wilayah()
     ada = faktor_tersedia()
     if not ada:
-        return balas({"kosong": "Data cuaca dan ENSO belum diambil. Jalankan notebooks/9_data_tambahan.ipynb lalu restart server."})
+        return balas({"kosong": "Data cuaca dan ENSO belum diambil. Jalankan notebooks/8_data_tambahan.ipynb lalu restart server."})
     fw = D.saring(prov, kab)
     pasar = None if (prov == SEMUA_PROV and kab == SEMUA_KAB) else fw[KOL_PASAR].unique()
     seri = {f: seri_faktor(f, pasar) for f in ada}
@@ -763,7 +763,7 @@ def api_keputusan():
                              f"{int(hitung.get('Aman', 0))} aman. Berikut 10 pasar dengan skor risiko tertinggi.",
                   "jumlah": {"tinggi": int(hitung.get("Prioritas tinggi", 0)), "pantau": int(hitung.get("Pantau ketat", 0)), "aman": int(hitung.get("Aman", 0)), "total": len(rek)},
                   "terbaik": str(terbaik), "tabel": baris, "catatan": catatan, "sumber": sumber, "metrik": tabel_metrik,
-                  "info_eksternal": None if ada_eks else "Data tambahan (cuaca, ENSO, Ramadan) belum diambil. Jalankan notebooks/9_data_tambahan.ipynb lalu muat ulang dashboard.",
+                  "info_eksternal": None if ada_eks else "Data tambahan (cuaca, ENSO, Ramadan) belum diambil. Jalankan notebooks/8_data_tambahan.ipynb lalu muat ulang dashboard.",
                   "catatan_metrik": "Klasifikasi ini adalah supervised learning: label berasal dari status inflasi aktual bulan depan. "
                                     "Dua baseline dipakai sebagai pembanding: tebakan sederhana dan selalu menebak Normal."})
 

@@ -53,7 +53,7 @@
   <div id="x-grafik" class="plot"></div>
   <p class="catatan" id="x-catatan"></p>
   {% else %}
-  <div class="kosong">Data cuaca (NASA POWER) dan ENSO (NOAA ONI) belum diambil, jadi grafik ini belum bisa ditampilkan. Jalankan <code>notebooks/9_data_tambahan.ipynb</code> lalu restart server.</div>
+  <div class="kosong">Data cuaca (NASA POWER) dan ENSO (NOAA ONI) belum diambil, jadi grafik ini belum bisa ditampilkan. Jalankan <code>notebooks/8_data_tambahan.ipynb</code> lalu restart server.</div>
   {% endif %}
 </section>
 {% if ada_faktor %}
@@ -65,4 +65,4 @@
 </section>
 {% endif %}
 {% endblock %}
-{% block skrip %}<script src="{{ url_for('static', filename='js/peringatan.js') }}"></script><script src="{{ url_for('static', filename='js/insight.js') }}"></script>{% endblock %}
+{% block skrip %}<script src="{{ url_for('static', filename='js/insight.js') }}"></script>{% endblock %}
