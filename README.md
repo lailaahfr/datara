@@ -1,6 +1,6 @@
 # DATARA: Sistem Informasi Pemantauan dan Prediksi Harga Pangan Indonesia
 
-DATARA adalah sistem informasi berbasis web (Flask) untuk memantau dan memprediksi harga 9 komoditas pangan di 222 pasar Indonesia. Sistem menggabungkan tiga sumber data (harga pangan World Bank RTFP, cuaca NASA POWER, dan indeks iklim ENSO dari NOAA, ditambah kalender Ramadan) lalu menghasilkan peta harga, prediksi harga 6 bulan, peringatan dini inflasi, dan daftar pasar yang perlu diperiksa lebih dulu.
+DATARA adalah sistem informasi berbasis web (Flask) untuk memantau dan memprediksi harga 9 komoditas pangan di 222 pasar Indonesia. Sistem menggabungkan tiga sumber data (harga pangan World Bank RTFP, cuaca NASA POWER, dan indeks iklim ENSO dari NOAA, ditambah kalender Ramadan) lalu menghasilkan peta harga, prediksi harga 6 bulan, dan peringatan dini lonjakan harga berupa daftar pasar berisiko tertinggi bulan depan.
 
 ---
 
@@ -9,25 +9,6 @@ DATARA adalah sistem informasi berbasis web (Flask) untuk memantau dan mempredik
 Harga pangan yang naik tiba-tiba menekan rumah tangga berpendapatan rendah dan menyulitkan pemerintah daerah menentukan di mana harus bertindak lebih dulu. Pantauan yang ada umumnya berupa angka rata-rata nasional, padahal harga dan gejolaknya berbeda jauh antarwilayah dan antarpasar.
 
 DATARA menjawab tiga pertanyaan: berapa harga pangan di tiap wilayah dan seberapa bergejolak, ke mana arah harga enam bulan ke depan, dan pasar mana yang berisiko mengalami lonjakan harga bulan depan.
-
----
-
-## Arsitektur Sistem
-
-```
-Sumber data                 Pengolahan (notebook)                Aplikasi
------------                 ---------------------                --------
-World Bank RTFP  --\        1 cleaning        -> data_bersih.csv
-NASA POWER       ---+-----> 9 data tambahan   -> data/external/    inti.py  (fungsi analisis)
-NOAA ONI         ---+       2-3 EDA dan pemahaman data              app.py   (Flask + JSON API)
-Kalender Hijriah --/        4 prediksi harga                        templates/ dan static/
-GADM 4.1 (batas) ---------> 5 klasifikasi status inflasi           (Plotly.js di browser)
-                            6 klastering pasar
-                            7 rekomendasi keputusan
-                            8 peta wilayah   -> pasar_wilayah.csv
-```
-
-Notebook dipakai untuk eksplorasi dan bahan laporan. Aplikasi Flask memakai fungsi yang sama (`inti.py`) sehingga angka di notebook dan di dashboard konsisten.
 
 ---
 
@@ -118,32 +99,11 @@ Model halaman Insight dilatih di latar belakang saat server menyala (sekitar 10 
 
 ---
 
-## Struktur Repositori
-
-```text
-datara/
-|-- app.py                  server Flask: halaman dan endpoint JSON
-|-- inti.py                 fungsi analisis (fitur, model, klaster, skor, peta)
-|-- templates/              base, beranda, komoditas, komoditas_detail, insight
-|-- static/
-|   |-- css/style.css
-|   `-- js/                 umum, beranda, detail, peringatan (daftar pasar), insight (faktor eksternal)
-|-- notebooks/              1 sampai 9, urut sesuai alur
-|-- data/
-|   |-- raw/                data mentah RTFP (tidak ikut git bila besar)
-|   |-- processed/          data_bersih.csv, pasar_wilayah.csv, hasil notebook
-|   |-- external/           cuaca_bulanan.csv, oni.csv, kalender_ramadan.csv
-|   `-- geo/                batas wilayah GADM yang disederhanakan
-`-- requirements.txt
-```
-
----
-
 ## Halaman Dashboard
 
 - **Beranda** (`/`): ringkasan nasional (jumlah komoditas, berapa yang naik, turun, stabil), kartu sembilan komoditas dengan harga, perubahan bulanan, inflasi tahunan, dan grafik mini 12 bulan (bisa diurutkan dan dicari), serta peta harga per wilayah dengan filter komoditas, tahun, provinsi, dan kota/kabupaten, lengkap dengan tabel wilayah di sampingnya.
 - **Komoditas** (`/komoditas`): tabel perbandingan harga dan inflasi semua komoditas. Tiap komoditas punya halaman detail (`/komoditas/beras`) berisi pasar termurah dan termahal, grafik candlestick dengan prediksi 6 bulan dan pita ketidakpastian, grafik inflasi y/y, peringkat 10 provinsi dengan inflasi tertinggi, dan tabel harga per provinsi.
-- **Insight** (`/insight`): 10 pasar dengan risiko lonjakan tertinggi bulan depan (prediksi, skor, alasan) untuk menentukan alokasi stok dan operasi pasar, dengan filter provinsi dan unduhan CSV; di bawahnya faktor eksternal yang dipakai model: inflasi pangan dengan penanda Ramadan, curah hujan dan suhu NASA POWER, serta indeks ENSO NOAA.
+- **Insight** (`/insight`): 10 pasar dengan risiko lonjakan tertinggi bulan depan (prediksi, skor, alasan) sebagai peringatan dini agar intervensi seperti operasi pasar dapat diantisipasi lebih awal, dengan filter provinsi dan unduhan CSV; di bawahnya faktor eksternal yang dipakai model: inflasi pangan dengan penanda Ramadan, curah hujan dan suhu NASA POWER, serta indeks ENSO NOAA.
 
 ---
 
@@ -166,26 +126,9 @@ datara/
 
 ---
 
-## Tim Pengembang (Kelompok 10)
-
-| Nama            | NIM         | GitHub |
-| --------------- | ----------- | ------ |
-| [isi nama]      | [isi NIM]   | [@username](https://github.com/username) |
-| [isi nama]      | [isi NIM]   | [@username](https://github.com/username) |
-
----
-
-## Keterkaitan dengan SDGs
-
-Proyek ini mendukung **SDG 2: Zero Hunger** dengan menyediakan pemantauan harga pangan per wilayah dan peringatan dini lonjakan inflasi pangan, sehingga pengambil kebijakan dapat memprioritaskan pasar yang paling rentan.
-
----
-
 ## Sumber dan Lisensi Data
 
 - World Bank, Real-Time Food Prices (RTFP) Indonesia
 - NASA POWER (https://power.larc.nasa.gov)
 - NOAA Climate Prediction Center, Oceanic Nino Index
 - GADM versi 4.1 (https://gadm.org), untuk penggunaan akademik non-komersial dengan menyebut sumbernya
-
-> Proyek ini dikembangkan sebagai Tugas Besar Mata Kuliah Analisis Big Data, [isi program studi dan institusi], 2026.
