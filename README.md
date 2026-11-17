@@ -1,6 +1,6 @@
 # DATARA: Sistem Informasi Pemantauan dan Prediksi Harga Pangan Indonesia
 
-DATARA adalah sistem informasi berbasis web (Flask) untuk memantau dan memprediksi harga 9 komoditas pangan di 222 pasar Indonesia. Sistem menggabungkan tiga sumber data (harga pangan World Bank RTFP, cuaca NASA POWER, dan indeks iklim ENSO dari NOAA, ditambah kalender Ramadan) lalu menghasilkan peta harga, prediksi harga 6 bulan.
+DATARA adalah sistem informasi berbasis web (Flask) untuk memantau dan memprediksi harga 9 komoditas pangan di 222 pasar Indonesia. Sistem menggabungkan tiga sumber data (harga pangan World Bank RTFP, cuaca NASA POWER, dan indeks iklim ENSO dari NOAA, ditambah kalender Ramadan) lalu menghasilkan peta harga, prediksi harga 6 bulan, dan peringatan dini lonjakan harga berupa daftar pasar berisiko tertinggi bulan depan.
 
 ---
 
@@ -31,7 +31,7 @@ DATARA adalah sistem informasi berbasis web (Flask) untuk memantau dan mempredik
 ## Pemodelan
 
 ### Prediksi harga (regresi, per komoditas dan wilayah)
-Empat kandidat model: harga tetap, tren teredam, linear 36 bulan, dan polinomial derajat 2 36 bulan. Model dipilih otomatis lewat uji mundur (rolling backtest) 24 bulan dengan metrik MAPE 6 langkah. Pita ketidakpastian diambil dari persentil ke-90 kesalahan relatif uji mundur per horizon.
+Lima kandidat model: linear (Least Square) 36 bulan, polinomial derajat 2 36 bulan, Theta, Holt-Winters musiman, dan SARIMA(1,1,0)(1,1,0)12. Holt-Winters dan SARIMA ditulis dengan numpy tanpa pustaka tambahan. Model dipilih otomatis lewat uji mundur (rolling backtest) 24 bulan dengan metrik MAPE 6 langkah; RMSE (Rp/kg) dicatat sebagai pembanding. Pita ketidakpastian diambil dari persentil ke-90 kesalahan relatif uji mundur per horizon.
 
 ### Klasifikasi status inflasi (supervised learning)
 - Label: status inflasi tahunan indeks pangan pada bulan berikutnya, yaitu Normal (di bawah 5%), Waspada (5% sampai di bawah 10%), Lonjakan (10% ke atas)
@@ -40,7 +40,7 @@ Empat kandidat model: harga tetap, tren teredam, linear 36 bulan, dan polinomial
 - Baseline: tebakan sederhana (status bulan depan sama dengan bulan ini) dan selalu menebak Normal
 
 ### Klastering pasar (unsupervised learning)
-K-Means pada profil harga dan gejolak tiap pasar, jumlah klaster dipilih dengan silhouette (k = 3 sampai 6). Terpilih k = 4 dengan silhouette sekitar 0,18, yang berarti pemisahan klaster cukup lemah dan dipakai sebagai pengelompokan kasar, bukan batas tegas
+K-Means pada profil harga dan gejolak tiap pasar, jumlah klaster dipilih dengan silhouette (k = 3 sampai 6). Terpilih k = 4 dengan silhouette sekitar 0,18, yang berarti pemisahan klaster cukup lemah dan dipakai sebagai pengelompokan kasar, bukan batas tegas.
 
 ---
 
@@ -58,7 +58,7 @@ Klasifikasi status inflasi pada data uji (hanya data RTFP; hasil dengan cuaca da
 
 Baseline "tebakan sederhana" masih sedikit lebih baik daripada semua model, karena inflasi tahunan sangat persisten dari bulan ke bulan. Nilai tambah model ada pada fungsinya sebagai pemeringkat risiko: lihat uji peringkat di `notebooks/4_klasifikasi_status.ipynb`, yaitu berapa persen lonjakan aktual yang tertangkap oleh 10% pasar teratas.
 
-Prediksi harga (MAPE uji mundur 6 langkah) bervariasi per komoditas, mulai sekitar 0,8% (beras) sampai sekitar 10,9% (bawang merah); untuk beberapa komoditas model terpilih adalah harga tetap, artinya tidak ada tren yang dapat diandalkan.
+Prediksi harga (MAPE uji mundur 6 langkah) bervariasi per komoditas, mulai sekitar 0,7% (beras) sampai sekitar 10,9% (bawang merah). Model terpilih berbeda-beda per komoditas (Theta untuk beras, telur, bawang putih, gula, dan minyak goreng; SARIMA untuk daging sapi; linear untuk bawang merah dan ayam). Rata-rata MAPE di sembilan komoditas: Theta 3,80%, SARIMA 4,73%, Holt-Winters 5,04%, linear 5,85%, polinomial derajat 2 6,63%. Holt-Winters, yang terbaik pada data tiket wisata, tidak unggul di data pangan karena pola musiman tahunannya lemah.
 
 ---
 

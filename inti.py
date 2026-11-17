@@ -214,15 +214,6 @@ def peringkat_risiko(terbaru, prof):
 
 
 
-def model_datar(y, h):
-    return np.repeat(y[-1], h)
-
-
-def model_teredam(y, h, k=6, phi=0.8):
-    kemiringan = np.mean(np.diff(y[-(k + 1):]))
-    return y[-1] + kemiringan * np.cumsum(phi ** np.arange(1, h + 1))
-
-
 def model_regresi(y, h, derajat, jendela=36):
     y = y[-jendela:]
     X = np.arange(len(y)).reshape(-1, 1)
@@ -230,12 +221,78 @@ def model_regresi(y, h, derajat, jendela=36):
     return model.predict(np.arange(len(y), len(y) + h).reshape(-1, 1))
 
 
+MUSIM = 12
+
+
+def model_theta(y, h):
+    n = len(y)
+    kemiringan = np.polyfit(np.arange(n), y, 1)[0]
+
+    def ses(z, a):
+        level = z[0]
+        for v in z[1:]:
+            level = a * v + (1 - a) * level
+        return level
+
+    a = min([0.2, 0.4, 0.6, 0.8], key=lambda a: sum((y[i] - ses(y[:i], a)) ** 2 for i in range(n - 12, n)))
+    return ses(y, a) + 0.5 * kemiringan * (np.arange(1, h + 1) - 1 + 1 / a - ((1 - a) ** n) / a)
+
+
+def latih_holt_winters(y, a, b, g):
+    level, tren = y[:MUSIM].mean(), (y[MUSIM:2 * MUSIM].mean() - y[:MUSIM].mean()) / MUSIM
+    musim, sse = list(y[:MUSIM] - level), 0.0
+    for i in range(MUSIM, len(y)):
+        galat = y[i] - (level + tren + musim[i - MUSIM])
+        sse += galat * galat
+        level_lalu = level
+        level = a * (y[i] - musim[i - MUSIM]) + (1 - a) * (level + tren)
+        tren = b * (level - level_lalu) + (1 - b) * tren
+        musim.append(g * (y[i] - level) + (1 - g) * musim[i - MUSIM])
+    return sse, level, tren, musim
+
+
+def model_holt_winters(y, h):
+    y = y[-96:]
+    if len(y) < 2 * MUSIM + 6:
+        return np.full(h, np.nan)
+    terbaik = None
+    for a in (0.2, 0.5, 0.8):
+        for b in (0.01, 0.1):
+            for g in (0.1, 0.3, 0.6):
+                hasil = latih_holt_winters(y, a, b, g)
+                if terbaik is None or hasil[0] < terbaik[0]:
+                    terbaik = hasil
+    _, level, tren, musim = terbaik
+    n = len(y)
+    return np.array([level + (k + 1) * tren + musim[n - MUSIM + (k % MUSIM)] for k in range(h)])
+
+
+def model_sarima(y, h):
+    # SARIMA(1,1,0)(1,1,0)12: data dibedakan sekali biasa dan sekali musiman, lalu diregresikan pada lag 1, 12, dan 13
+    y = y[-120:]
+    if len(y) < 4 * MUSIM:
+        return np.full(h, np.nan)
+    w = y[MUSIM + 1:] - y[MUSIM:-1] - y[1:-MUSIM] + y[:-MUSIM - 1]
+    lag = [1, MUSIM, MUSIM + 1]
+    X = np.column_stack([w[MUSIM + 1 - k:len(w) - k] for k in lag])
+    koef = np.linalg.lstsq(X, w[MUSIM + 1:], rcond=None)[0]
+    dw, dy, hasil = list(w), list(y), []
+    for _ in range(h):
+        w_baru = sum(koef[j] * dw[-lag[j]] for j in range(3))
+        dw.append(w_baru)
+        y_baru = dy[-1] + dy[-MUSIM] - dy[-MUSIM - 1] + w_baru
+        dy.append(y_baru)
+        hasil.append(y_baru)
+    return np.array(hasil)
+
+
 def kandidat_prediksi():
     return {
-        'Harga tetap': model_datar,
-        'Tren teredam': model_teredam,
         'Linear (36 bulan)': lambda y, h: model_regresi(y, h, 1),
         'Polinomial derajat 2 (36 bulan)': lambda y, h: model_regresi(y, h, 2),
+        'Theta': model_theta,
+        'Holt-Winters': model_holt_winters,
+        'SARIMA (1,1,0)(1,1,0)12': model_sarima,
     }
 
 
@@ -246,17 +303,21 @@ def prediksi_harga(seri, bulan_depan=6, uji_bulan=24):
         return None
     kandidat = kandidat_prediksi()
     galat = {nama: [] for nama in kandidat}
+    kuadrat = {nama: [] for nama in kandidat}
     for o in range(len(y) - uji_bulan - bulan_depan + 1, len(y) - bulan_depan + 1):
         aktual = y[o:o + bulan_depan]
         for nama, f in kandidat.items():
-            galat[nama].append(np.abs((aktual - f(y[:o], bulan_depan)) / aktual))
+            pred = f(y[:o], bulan_depan)
+            galat[nama].append(np.abs((aktual - pred) / aktual))
+            kuadrat[nama].append((aktual - pred) ** 2)
     galat = {nama: np.array(v) for nama, v in galat.items()}
-    tabel = pd.DataFrame({'MAPE (%)': {nama: v.mean() * 100 for nama, v in galat.items()}})
+    tabel = pd.DataFrame({'MAPE (%)': {nama: v.mean() * 100 for nama, v in galat.items()},
+                          'RMSE (Rp/kg)': {nama: np.sqrt(np.mean(v)) for nama, v in kuadrat.items()}})
     terbaik = tabel['MAPE (%)'].idxmin()
     lebar = np.maximum.accumulate(np.quantile(galat[terbaik], 0.9, axis=0))
     tanggal = pd.date_range(s.index[-1] + pd.offsets.MonthBegin(1), periods=bulan_depan, freq='MS')
     pred = kandidat[terbaik](y, bulan_depan)
-    return {'model': terbaik, 'mape': float(tabel.loc[terbaik, 'MAPE (%)']), 'tabel': tabel.round(2),
+    return {'model': terbaik, 'mape': float(tabel.loc[terbaik, 'MAPE (%)']), 'rmse': float(tabel.loc[terbaik, 'RMSE (Rp/kg)']), 'tabel': tabel.round(2),
             'prediksi': pd.Series(pred, index=tanggal), 'bawah': pd.Series(pred * (1 - lebar), index=tanggal),
             'atas': pd.Series(pred * (1 + lebar), index=tanggal)}
 
