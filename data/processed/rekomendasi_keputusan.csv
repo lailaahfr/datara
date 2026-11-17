@@ -1,0 +1,223 @@
+mkt_name,skor_prioritas,status_bulan_ini,status_prediksi_bulan_depan,komoditas_pemicu,label_klaster,alasan,perlu_verifikasi
+Pasar Flamboyan,74.3,Lonjakan,Lonjakan,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 80%; inflasi daging ayam 57%; harga sering bergejolak,False
+Pasar Dahlia,72.3,Lonjakan,Lonjakan,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil","Peluang lonjakan 56%; inflasi naik dari 7,3% ke 11,6%; inflasi daging ayam broiler 41%",False
+Pasar Rawu,72.0,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 78%; inflasi bawang merah 33%; harga sering bergejolak,False
+Pasar Mangli,71.4,Lonjakan,Lonjakan,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 77%; inflasi daging ayam broiler 28%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Teratai,70.3,Lonjakan,Lonjakan,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil","Peluang naik ke Waspada atau lebih 91%; inflasi naik dari 5,4% ke 10,4%; inflasi daging ayam 42%",False
+Pasar Tugu,70.0,Lonjakan,Lonjakan,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 71%; inflasi daging ayam 43%; harga sering bergejolak,False
+Pasar Cileduk,69.2,Lonjakan,Lonjakan,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Peluang lonjakan 73%; inflasi bawang merah 23%; harga sering bergejolak,False
+Pasar Anyar (Kota Tangerang),68.9,Lonjakan,Lonjakan,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Peluang lonjakan 71%; inflasi bawang merah 21%; harga sering bergejolak,False
+Pasar Ngadirojo,68.7,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil","Peluang lonjakan 58%; inflasi naik dari 9,3% ke 11,3%; inflasi bawang merah 27%",False
+Pasar Kreyongan,68.1,Lonjakan,Lonjakan,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 66%; inflasi daging ayam broiler 25%; harga sering bergejolak,False
+Pasar Legi (Kota Blitar),66.6,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 74%; inflasi bawang merah 36%; harga sering bergejolak,False
+Pasar Bungur,66.2,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 64%; inflasi bawang merah 19%; harga sering bergejolak,False
+Pasar Pahing,65.6,Lonjakan,Lonjakan,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 70%; inflasi daging ayam broiler 25%; harga sering bergejolak,False
+Pasar Tanjung (Kab. Jember),65.5,Lonjakan,Lonjakan,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 65%; inflasi daging ayam broiler 25%; harga sering bergejolak,False
+Pasar Anyar Martoloyo (Kota Tegal),65.4,Lonjakan,Lonjakan,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 69%; inflasi minyak goreng 28%; harga sering bergejolak,False
+Pasar Dwikora,64.3,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 55%; inflasi bawang merah 23%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Puring,63.8,Lonjakan,Lonjakan,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil","Peluang lonjakan 51%; inflasi naik dari 9,3% ke 11,0%; inflasi bawang merah 33%",False
+Pasar Barukoto (Kota Bengkulu),63.2,Lonjakan,Lonjakan,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 62%; inflasi minyak goreng 16%; harga sering bergejolak,False
+Pasar Pelita,63.2,Lonjakan,Lonjakan,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 56%; inflasi daging ayam 27%; harga sering bergejolak,False
+Pasar Legi (Kota Surakarta),63.2,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 56%; inflasi bawang merah 29%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Kelapa,63.1,Lonjakan,Lonjakan,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Peluang lonjakan 55%; inflasi bawang merah 26%; harga sering bergejolak,False
+Pasar Sukaramai (Kota Medan),62.4,Waspada,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 52%; inflasi bawang merah 20%; harga sering bergejolak,False
+Pasar Pon,61.1,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 57%; inflasi bawang merah 40%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Lemabang,60.7,Waspada,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 91%; inflasi bawang merah 22%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Singaparna,60.6,Lonjakan,Lonjakan,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 54%; inflasi daging ayam 35%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Rogojampi,60.3,Waspada,Lonjakan,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 54%; inflasi daging ayam broiler 23%; harga sering bergejolak,False
+Pasar Gemolong,59.7,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 57%; inflasi bawang merah 31%,False
+Pasar Talang Banjar Jambi,58.5,Waspada,Lonjakan,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 92%; inflasi daging ayam 13%; harga sering bergejolak,False
+Pasar Aikmel,58.2,Lonjakan,Lonjakan,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 55%; inflasi daging ayam broiler 24%; harga sering bergejolak,False
+Pasar Gede (Kab. Cilacap),57.9,Lonjakan,Lonjakan,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 91%; inflasi bawang merah 35%; harga sering bergejolak,False
+Pasar Warung Jambu 2,57.9,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 92%; inflasi daging ayam 18%; harga sering bergejolak,False
+Pasar Besar (Kota Madiun),56.6,Waspada,Lonjakan,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 91%; inflasi daging ayam broiler 15%,False
+Pasar Gotong Royong,55.7,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 87%; inflasi daging ayam 43%; harga sering bergejolak,False
+Pasar Wonomulyo,55.0,Lonjakan,Lonjakan,Telur,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 50%; inflasi telur 25%,False
+Pasar Gudang,54.7,Lonjakan,Lonjakan,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil","Peluang lonjakan 50%; inflasi naik dari 8,4% ke 10,1%; inflasi bawang merah 24%",False
+Pasar Smep,54.2,Lonjakan,Lonjakan,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang lonjakan 51%; inflasi daging ayam 44%,False
+Pasar Kartasura,53.7,Waspada,Lonjakan,Daging Ayam,"Klaster 4: harga di bawah median, volatil","Peluang lonjakan 55%; inflasi naik dari 7,7% ke 10,0%; inflasi daging ayam 20%",False
+Pasar Liluwo,52.9,Waspada,Waspada,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil","Peluang naik ke Waspada atau lebih 90%; inflasi naik dari 7,6% ke 9,7%; inflasi daging ayam broiler 20%",False
+Pasar Anyar (Kota Bogor),52.8,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 88%; inflasi daging ayam 26%; harga sering bergejolak,False
+Pasar Dupa,52.6,Waspada,Waspada,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 89%; inflasi bawang merah 16%; harga sering bergejolak,False
+Pusat Pasar,51.6,Waspada,Waspada,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 87%; inflasi bawang merah 27%; harga sering bergejolak,False
+Pasar Bintan Centre,51.1,Waspada,Waspada,Daging Sapi,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 84%; inflasi daging sapi 16%; harga sering bergejolak,False
+Pasar Tejo Agung 24,50.9,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 84%; inflasi daging ayam 21%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Royal Lama,50.5,Waspada,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 82%; inflasi minyak goreng 20%; harga sering bergejolak,False
+Pasar Inpres Lubuklinggau,48.9,Waspada,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 86%; inflasi minyak goreng 14%,False
+Pasar Pagi (Kota Tegal),48.5,Waspada,Lonjakan,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 93%; inflasi bawang merah 32%,False
+Pasar Kota Lhokseumawe,48.3,Waspada,Waspada,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 85%; inflasi daging ayam broiler 23%; harga sering bergejolak,False
+Pasar Pelantar Kud,47.6,Waspada,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 83%; inflasi daging ayam broiler 11%; harga sering bergejolak,False
+Pasar Arengka,47.4,Waspada,Waspada,Daging Sapi,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 86%; inflasi daging sapi 16%,False
+Pasar Wonoasih,47.2,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 83%; inflasi daging ayam 21%; harga sering bergejolak,False
+Pasar Weru,46.9,Waspada,Waspada,Daging Sapi,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 80%; inflasi daging sapi 16%; harga sering bergejolak,False
+Pasar Kota Wonogiri,46.7,Waspada,Waspada,Bawang Merah,"Klaster 4: harga di bawah median, volatil","Peluang naik ke Waspada atau lebih 82%; inflasi naik dari 7,4% ke 8,6%; inflasi bawang merah 31%",False
+Pasar Mandalika,46.5,Waspada,Waspada,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 87%; inflasi bawang merah 20%,False
+Pasar Kranggot,46.3,Waspada,Waspada,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 85%; inflasi minyak goreng 26%,False
+Pasar Pancasila,45.9,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 78%; inflasi daging ayam 15%; harga sering bergejolak,False
+Pasar Baru (Kota Probolinggo),45.9,Waspada,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 83%; inflasi daging ayam broiler 19%,False
+Pasar Panorama,45.8,Normal,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 79%; inflasi daging ayam broiler 21%; harga sering bergejolak,False
+Pasar Brayan,45.3,Waspada,Waspada,Daging Sapi,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 87%; inflasi daging sapi 16%,False
+Pasar Kopindo,45.3,Normal,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 74%; inflasi daging ayam 18%; harga sering bergejolak,False
+Pasar Poyowa Kecil,45.3,Waspada,Waspada,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 75%; inflasi daging sapi 18%; harga sering bergejolak,False
+Pasar Boswezen,45.0,Waspada,Waspada,Daging Ayam Broiler,"Klaster 1: harga jauh di atas median, stabil","Peluang naik ke Waspada atau lebih 70%; inflasi naik dari 2,6% ke 6,2%; inflasi daging ayam broiler 29%",False
+Pasar Klaten Kota,44.8,Waspada,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 86%; inflasi daging ayam broiler 23%,False
+Pasar Cisalak,44.7,Waspada,Waspada,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 81%; inflasi daging ayam broiler 18%,False
+Pasar Kranji,44.7,Waspada,Waspada,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 80%; inflasi daging sapi 18%; harga sering bergejolak,False
+Pasar Inpres,44.2,Waspada,Waspada,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 81%; inflasi bawang merah 21%; harga sering bergejolak,False
+Pasar Baru (sentral Majene) (Kab. Majene),43.8,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil","Peluang naik ke Waspada atau lebih 76%; inflasi naik dari 3,9% ke 5,3%; inflasi daging ayam 26%",False
+Pasar Pagar Dewa,43.3,Waspada,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 81%; inflasi daging ayam broiler 19%,False
+Pasar Cekkeng,43.3,Waspada,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil","Peluang naik ke Waspada atau lebih 67%; inflasi naik dari 1,9% ke 5,2%; inflasi daging ayam broiler 17%",False
+Pasar Langgur,42.9,Waspada,Waspada,Minyak Goreng,"Klaster 1: harga jauh di atas median, stabil",Peluang naik ke Waspada atau lebih 75%; inflasi minyak goreng 16%; harga sering bergejolak,False
+Pasar Tual,42.8,Waspada,Waspada,Daging Sapi,"Klaster 1: harga jauh di atas median, stabil","Peluang naik ke Waspada atau lebih 69%; inflasi naik dari 2,4% ke 6,0%; inflasi daging sapi 13%",False
+Pasar Daya,42.7,Waspada,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 80%; inflasi daging ayam broiler 24%,False
+Pasar Aksara,41.9,Waspada,Waspada,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 83%; inflasi bawang merah 24%,False
+Pasar Amahami,41.7,Waspada,Waspada,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 75%; inflasi daging ayam broiler 17%; harga sering bergejolak,False
+Pasar Angso Duo Jambi,41.6,Waspada,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 80%; inflasi minyak goreng 14% (perlu verifikasi data),True
+Pasar Andi Tadda,40.9,Normal,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 69%; inflasi daging ayam broiler 23%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Gede (Kota Surakarta),40.8,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 70%; inflasi daging ayam 13%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Karang Tumaritis,40.1,Normal,Waspada,Bawang Merah,"Klaster 3: harga jauh di atas median, volatil",Peluang naik ke Waspada atau lebih 63%; inflasi bawang merah 19%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Tenguyun,40.0,Waspada,Waspada,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 75%; inflasi daging sapi 22%,False
+Pasar Petisah,39.7,Waspada,Waspada,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 82%; inflasi bawang merah 29%,False
+Pasar Anom,39.7,Normal,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 73%; inflasi minyak goreng 18%,False
+Pasar Tos 3000 Jodoh,39.5,Waspada,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 82%; inflasi minyak goreng 11%,False
+Pasar Delanggu,39.4,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 84%; inflasi daging ayam 23% (perlu verifikasi data),True
+Pasar Karya Nugraha,39.3,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 76%; inflasi daging ayam 16%,False
+Pasar Kayu Jati,39.1,Normal,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 67%; inflasi minyak goreng 13%; harga sering bergejolak,False
+Pasar Horas,38.7,Normal,Normal,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 56%; inflasi daging ayam broiler 18%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Sukoharjo,38.6,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil","Peluang naik ke Waspada atau lebih 72%; inflasi naik dari 3,4% ke 6,1%; inflasi daging ayam 18%",False
+Pasar Aviari,38.0,Normal,Waspada,Daging Sapi,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 63%; inflasi daging sapi 18%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Masomba,38.0,Waspada,Waspada,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 78%; inflasi daging ayam broiler 34%,False
+Pasar Bitingan,37.9,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil","Peluang naik ke Waspada atau lebih 73%; inflasi naik dari 3,6% ke 5,1%; inflasi daging ayam 15%",False
+Pasar Serasi,37.8,Waspada,Waspada,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 78%; inflasi daging sapi 13% (perlu verifikasi data),True
+Pasar Simpong,37.7,Normal,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 65%; inflasi daging ayam 39%,False
+Pasar Kramat,37.6,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 75%; inflasi daging ayam 28%,False
+Pasar Dinoyo,37.3,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 79%; inflasi daging ayam 23%,False
+Pasar Sukaramai (Kab. Kampar),37.3,Normal,Normal,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 55%; inflasi daging ayam 14%; harga sering bergejolak,False
+Pasar Loktuan,37.1,Waspada,Waspada,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 73%; inflasi daging ayam broiler 23%,False
+Pasar Pagi (Kota Pangkal Pinang),36.6,Normal,Waspada,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 74%; inflasi daging sapi 10%,False
+Pasar Sentral (Kota Gorontalo),36.3,Waspada,Waspada,Telur,"Klaster 2: harga sedikit di atas median, stabil","Peluang naik ke Waspada atau lebih 73%; inflasi naik dari 3,3% ke 7,0%; inflasi telur 14%",False
+Pasar Kanoman,36.2,Normal,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 74%; inflasi daging ayam 27%,False
+Pasar Johar,36.2,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 76%; inflasi daging ayam 16%,False
+Pasar Pondok Gede (Kota Bekasi),36.1,Waspada,Waspada,Bawang Putih,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 72%; inflasi bawang putih 17%,False
+Pasar Kramatjati,36.1,Waspada,Waspada,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 74%; inflasi daging sapi 20%,False
+Pasar Tambah Rejo,35.6,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil","Peluang naik ke Waspada atau lebih 71%; inflasi naik dari 4,5% ke 5,6%; inflasi daging ayam 17%",False
+Pasar Sidodadi,35.5,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil","Peluang naik ke Waspada atau lebih 71%; inflasi naik dari 4,9% ke 5,9%; inflasi daging ayam 21%",False
+Pasar Sentral (Kab. Bulukumba),35.4,Normal,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil","Peluang naik ke Waspada atau lebih 63%; inflasi naik dari 1,4% ke 4,4%; inflasi daging ayam 18%",False
+Pasar Bunder,35.2,Normal,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 78%; inflasi daging ayam broiler 18%,False
+Pasar Pabaeng - Baeng,34.8,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 77%; inflasi daging ayam 25%,False
+Pasar Beringharjo,34.8,Waspada,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 75%; inflasi daging ayam broiler 18%,False
+Pasar Sleko,34.6,Normal,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 72%; inflasi daging ayam broiler 16%,False
+Pasar Wamanggu,34.6,Normal,Normal,Bawang Merah,"Klaster 1: harga jauh di atas median, stabil","Inflasi naik dari 0,8% ke 4,0%",False
+Pasar Oeba,34.6,Waspada,Waspada,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 73%; inflasi minyak goreng 18%,False
+Pasar Minggu (Kota Jakarta Selatan),34.4,Normal,Waspada,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 73%; inflasi daging ayam broiler 19%,False
+Pasar Kayubulan Limboto,34.0,Waspada,Waspada,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil","Peluang naik ke Waspada atau lebih 77%; inflasi naik dari 5,2% ke 6,5%; inflasi daging ayam broiler 17%",False
+Pasar Sagulung,33.9,Normal,Waspada,Daging Sapi,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 63%; inflasi daging sapi 13%,False
+Pasar Kebon Roek,33.7,Normal,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 57%; inflasi daging ayam 16%,False
+Pasar Masuka,33.6,Normal,Waspada,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 59%; inflasi bawang merah 19%,False
+Pasar Kranggan,33.6,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 81%; inflasi daging ayam 26%,False
+Pasar Bersehati,33.5,Normal,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 70%; inflasi daging ayam 24%,False
+Pasar Lakessi,33.5,Waspada,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 77%; inflasi daging ayam 26%,False
+Pasar Jatinegara,33.4,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 75%; inflasi daging ayam 38%,False
+Pasar Peterongan,32.8,Normal,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 59%; inflasi daging ayam 24%,False
+Pasar Beringin Gunungsitoli,32.6,Waspada,Waspada,Bawang Merah,"Klaster 1: harga jauh di atas median, stabil",Peluang naik ke Waspada atau lebih 77%; inflasi bawang merah 31%,False
+Pasar Pembangunan,32.1,Waspada,Waspada,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 79%; inflasi daging sapi 14%,False
+Pasar Labukkang,32.0,Normal,Normal,Minyak Goreng,"Klaster 4: harga di bawah median, volatil","Inflasi naik dari 0,3% ke 3,1%; inflasi minyak goreng 16%",False
+Pasar Mandonga,32.0,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil","Peluang naik ke Waspada atau lebih 71%; inflasi naik dari 5,2% ke 6,3%; inflasi daging ayam 35%",False
+Pasar Setono Betek,31.5,Waspada,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 72%; inflasi daging ayam broiler 27%,False
+Pasar Banyuwangi,30.7,Waspada,Waspada,Gula,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 77%; inflasi gula 16%,False
+Pasar Sanggeng,30.2,Normal,Normal,Minyak Goreng,"Klaster 1: harga jauh di atas median, stabil",Kondisi stabil,False
+Pasar Kramat Sampit,30.2,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 71%; inflasi daging ayam 25%,False
+Pasar Ujong Baro,30.2,Waspada,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 71%; inflasi daging ayam 26%,False
+Pasar Hatta,30.1,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Harga sering bergejolak (perlu verifikasi data),True
+Pasar Agung,29.8,Normal,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 57%; inflasi daging ayam 26%,False
+Pasar Baru (regional Mamuju) (Kab. Mamuju),29.2,Normal,Normal,Daging Ayam,"Klaster 4: harga di bawah median, volatil","Inflasi naik dari -0,3% ke 0,8%; inflasi daging ayam 18%; harga sering bergejolak",False
+Pasar Tanjungpandan (Kab. Belitung),29.0,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 10%; harga sering bergejolak,False
+Pasar Seketeng,28.9,Normal,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 65%; inflasi daging ayam broiler 14%,False
+Pasar Wage,28.6,Normal,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 61%; inflasi daging ayam 24%,False
+Pasar Segiri,28.2,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Harga sering bergejolak,False
+Pasar Manonda,28.0,Normal,Normal,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 51%; inflasi daging ayam broiler 17%,False
+Pasar Siteba,28.0,Normal,Normal,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil,False
+Pasar Baru Wamena,27.9,Normal,Normal,Daging Ayam,"Klaster 3: harga jauh di atas median, volatil",Inflasi daging ayam 16%; harga sering bergejolak,False
+Pasar Peunayong,27.8,Normal,Normal,Beras,"Klaster 2: harga sedikit di atas median, stabil",Inflasi beras 13%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Seroja,27.7,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 10%,False
+Pasar Alok,27.5,Normal,Normal,Bawang Putih,"Klaster 2: harga sedikit di atas median, stabil","Inflasi naik dari -0,7% ke 0,8%; inflasi bawang putih 13%; harga sering bergejolak",False
+Pasar Nou Gunungsitoli,27.4,Waspada,Waspada,Daging Ayam,"Klaster 1: harga jauh di atas median, stabil",Peluang naik ke Waspada atau lebih 66%; inflasi daging ayam 18%,False
+Pasar Manonjaya,27.2,Normal,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 56%; inflasi daging ayam broiler 11%,False
+Pasar Pusat Pembelanjaan Mentaya (ppm),27.0,Normal,Normal,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam broiler 22%; harga sering bergejolak,False
+Pasar Merjosari,26.9,Normal,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 60%; inflasi minyak goreng 15% (perlu verifikasi data),True
+Pasar Baru Timika,26.8,Waspada,Waspada,Minyak Goreng,"Klaster 1: harga jauh di atas median, stabil",Peluang naik ke Waspada atau lebih 70%; inflasi minyak goreng 11%,False
+Pasar Sunggingan (Kab. Boyolali),26.7,Normal,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 60%; inflasi daging ayam 17%,False
+Pasar Jungke (Kab. Karanganyar),26.6,Normal,Normal,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 56%; inflasi daging ayam 17%,False
+Pasar Senggol,26.6,Normal,Waspada,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 68%; inflasi bawang merah 28%,False
+Pasar Kota Boyolali (Kab. Boyolali),25.7,Normal,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 62%; inflasi daging ayam 21%,False
+Pasar Minggu (Kota Bengkulu),25.7,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 21% (perlu verifikasi data),True
+Pasar Kliwon,25.6,Normal,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 54%; inflasi minyak goreng 12%,False
+Pasar Lama Sentani,25.1,Normal,Normal,Beras,"Klaster 1: harga jauh di atas median, stabil","Inflasi naik dari -1,3% ke 0,5%",False
+Pasar Kosambi,25.0,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 14%,False
+Pasar Cik Puan,25.0,Normal,Normal,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 55%; inflasi daging ayam broiler 15%,False
+Pasar Klandasan,24.6,Normal,Normal,Gula,"Klaster 2: harga sedikit di atas median, stabil","Inflasi naik dari -4,0% ke -2,8%; harga sering bergejolak",False
+Pasar Bejen (Kab. Karanganyar),24.3,Normal,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 57%; inflasi daging ayam 24%,False
+Pasar Sentral (Kota Palopo),24.3,Normal,Normal,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Inflasi daging ayam 22%,False
+Pasar Tingkat,24.2,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil,False
+Pasar Kalibobo,23.9,Normal,Normal,Telur,"Klaster 3: harga jauh di atas median, volatil",Harga sering bergejolak,False
+Pasar Mundu,23.7,Normal,Normal,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 55%; inflasi daging ayam broiler 17%,False
+Pasar Induk Tj Selor,23.7,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 15%; harga sering bergejolak,False
+Pasar Karombasan,23.6,Normal,Normal,Telur,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 51%; inflasi telur 15%,False
+Pasar Potikelek,23.6,Normal,Normal,Beras,"Klaster 3: harga jauh di atas median, volatil",Harga sering bergejolak (perlu verifikasi data),True
+Pasar Baru Sentani (Kab. Jayapura),23.3,Normal,Normal,Daging Ayam,"Klaster 1: harga jauh di atas median, stabil","Peluang naik ke Waspada atau lebih 54%; inflasi naik dari 2,1% ke 3,9%; inflasi daging ayam 22%",False
+Pasar Wonokromo,23.1,Normal,Waspada,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 63%; inflasi minyak goreng 12%,False
+Pasar Bajoe,23.1,Normal,Normal,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Inflasi daging ayam broiler 11%,False
+Pasar Besar (Kota Malang),22.8,Normal,Waspada,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 56%; inflasi daging ayam 16%,False
+Pasar 23 Maret,22.8,Normal,Normal,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging sapi 14%,False
+Pasar Terapung,22.5,Normal,Normal,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Inflasi minyak goreng 13%,False
+Pasar Kemakmuran,22.1,Normal,Normal,Gula,"Klaster 2: harga sedikit di atas median, stabil",Harga sering bergejolak,False
+Pasar Agro Politan,22.1,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 13%; harga sering bergejolak (perlu verifikasi data),True
+Pasar Kreneng,22.0,Normal,Normal,Gula,"Klaster 4: harga di bawah median, volatil",Harga sering bergejolak,False
+Pasar Gusher,22.0,Normal,Waspada,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 57%; inflasi daging ayam 23%,False
+Pasar Cikurubuk,21.9,Normal,Waspada,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 56%; inflasi daging ayam broiler 15%,False
+Pasar Wameo,21.7,Normal,Waspada,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Peluang naik ke Waspada atau lebih 59%; inflasi minyak goreng 11%,False
+Pasar Lama (sentral Mamuju),21.6,Normal,Normal,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Peluang naik ke Waspada atau lebih 52%; inflasi daging ayam 22%,False
+Pasar Tua Biawu,21.5,Normal,Normal,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam 15%; harga sering bergejolak,False
+Pasar Entrop Atau Hamadi,20.7,Normal,Waspada,Daging Ayam Broiler,"Klaster 1: harga jauh di atas median, stabil",Peluang naik ke Waspada atau lebih 55%; inflasi daging ayam broiler 17%,False
+Pasar Besar (Kota Palangka Raya),20.7,Normal,Normal,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam 14%,False
+Pasar Cinde,20.5,Normal,Normal,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam 17% (perlu verifikasi data),True
+Pasar Nauli Sibolga,20.3,Normal,Normal,Gula,"Klaster 2: harga sedikit di atas median, stabil",Harga sering bergejolak,False
+Pasar Sentral (Kab. Bone),19.8,Normal,Normal,Daging Ayam,"Klaster 4: harga di bawah median, volatil",Inflasi daging ayam 16% (perlu verifikasi data),True
+Pasar Aek Habil,19.5,Normal,Normal,Beras,"Klaster 2: harga sedikit di atas median, stabil",Harga sering bergejolak,False
+Pasar Banyuasri,19.0,Normal,Normal,Bawang Merah,"Klaster 4: harga di bawah median, volatil",Inflasi bawang merah 11%,False
+Pasar Manis,18.9,Normal,Normal,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam 14%,False
+Pasar Antasari,18.9,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil,False
+Pasar Bangka,18.9,Normal,Normal,Minyak Goreng,"Klaster 4: harga di bawah median, volatil",Inflasi minyak goreng 11%,False
+Pasar Junjung Buih,18.8,Normal,Normal,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil (perlu verifikasi data),True
+Pasar Raya,18.5,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 12%,False
+Pasar Pagi (Kota Samarinda),18.4,Normal,Normal,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil,False
+Pasar Wosi,18.3,Normal,Normal,Telur,"Klaster 1: harga jauh di atas median, stabil",Inflasi telur 11%,False
+Pasar Lama,18.3,Normal,Normal,Beras,"Klaster 2: harga sedikit di atas median, stabil",Inflasi beras 24%,False
+Pasar Badung,18.1,Normal,Normal,Daging Ayam Broiler,"Klaster 4: harga di bawah median, volatil",Inflasi daging ayam broiler 11%,False
+Pasar Bastiong,17.5,Normal,Normal,Telur,"Klaster 1: harga jauh di atas median, stabil",Inflasi telur 15% (perlu verifikasi data),True
+Pasar Kiara Condong,17.4,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 19%,False
+Pasar Pandan Sari,17.4,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 14%,False
+Pasar Ulee Kareng,16.5,Normal,Normal,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam broiler 23%,False
+Pasar Lapang,16.4,Normal,Normal,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam 24%,False
+Pasar Yotefa Abepura,16.0,Normal,Normal,Minyak Goreng,"Klaster 1: harga jauh di atas median, stabil",Inflasi minyak goreng 11%,False
+Pasar Kuala Alianyang,15.8,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil","Inflasi naik dari 1,2% ke 2,6%; inflasi minyak goreng 15%",False
+Pasar Beringin,14.5,Normal,Normal,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Inflasi bawang merah 14%,False
+Pasar Pulau Payung,14.4,Normal,Normal,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam broiler 11%,False
+Pasar Inpres Naikoten,12.7,Normal,Normal,Daging Sapi,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil,False
+Pasar Rawa Indah,12.6,Normal,Normal,Daging Ayam Broiler,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam broiler 13%,False
+Pasar Lama Timika,12.4,Normal,Normal,Daging Ayam,"Klaster 1: harga jauh di atas median, stabil",Inflasi daging ayam 10%,False
+Pasar Kahayan,12.4,Normal,Normal,Daging Ayam,"Klaster 2: harga sedikit di atas median, stabil",Inflasi daging ayam 14%,False
+Pasar Batu,12.3,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 20%,False
+Pasar Gamalama,12.2,Normal,Normal,Telur,"Klaster 1: harga jauh di atas median, stabil",Inflasi telur 14%,False
+Pasar Anyar (Kab. Buleleng),12.2,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil,False
+Pasar Baru (Kab. Merauke),12.0,Normal,Normal,Bawang Merah,"Klaster 1: harga jauh di atas median, stabil",Kondisi stabil,False
+Pasar Baru,11.9,Normal,Normal,Daging Ayam Broiler,"Klaster 1: harga jauh di atas median, stabil",Kondisi stabil,False
+Pasar Tanjung (Kab. Tabalong),11.6,Normal,Normal,Beras,"Klaster 2: harga sedikit di atas median, stabil",Inflasi beras 24%,False
+Pasar Sangkumpal Bonang,11.5,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 21%,False
+Pasar Mardika,9.2,Normal,Normal,Bawang Merah,"Klaster 2: harga sedikit di atas median, stabil",Inflasi bawang merah 16%,False
+Pasar Remu,8.4,Normal,Normal,Minyak Goreng,"Klaster 1: harga jauh di atas median, stabil",Kondisi stabil,False
+Pasar Kota,8.1,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil,False
+Pasar Matawai,7.9,Normal,Normal,Telur,"Klaster 1: harga jauh di atas median, stabil",Inflasi telur 14%,False
+Pasar Bawah,7.6,Normal,Normal,Beras,"Klaster 2: harga sedikit di atas median, stabil",Inflasi beras 11%,False
+Pasar Subuh Sampit,6.5,Normal,Normal,Beras,"Klaster 2: harga sedikit di atas median, stabil",Kondisi stabil (perlu verifikasi data),True
+Pasar Aur Kuning,5.5,Normal,Normal,Minyak Goreng,"Klaster 2: harga sedikit di atas median, stabil",Inflasi minyak goreng 12%,False

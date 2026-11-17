@@ -1,0 +1,5 @@
+klaster,jumlah_pasar,komposit_harga,inflasi_rata,volatilitas_inflasi,label_klaster
+1,20,1.1908656180550374,4.026,2.398844847816811,"Klaster 1: harga jauh di atas median, stabil"
+2,97,1.03933491428197,3.401323024054983,3.1345134527564276,"Klaster 2: harga sedikit di atas median, stabil"
+3,4,1.3452853259192645,10.119375,7.997519936107099,"Klaster 3: harga jauh di atas median, volatil"
+4,101,0.9517724645231748,4.637689768976897,3.473494976156106,"Klaster 4: harga di bawah median, volatil"

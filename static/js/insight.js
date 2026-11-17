@@ -1,5 +1,3 @@
-const WARNA_TINGKAT = {"Prioritas tinggi": "#ee7f6b", "Pantau ketat": "#f6c85f", "Aman": "#8fc4ee"};
-
 function sel(teks) {
   return `<span class="status ${esc(teks.replace(" ", "-"))}">${esc(teks)}</span>`;
 }
@@ -14,15 +12,11 @@ async function muatPeringatan() {
   $("k-isi").hidden = false;
   $("k-judul").textContent = d.judul;
   $("k-ringkas").textContent = d.ringkas;
-  const j = d.jumlah;
-  const tile = (nama, n, nada, ket) => `<div class="kartu stat ${nada}"><div class="lbl">${nama}</div><div class="angka">${n}</div><div class="ket">${ket}</div></div>`;
-  $("k-tiles").innerHTML = tile("Prioritas tinggi", j.tinggi, "nada-naik", `pasar, skor di atas 50, dari ${j.total} pasar`) +
-    tile("Pantau ketat", j.pantau, "nada-waspada", "pasar, skor 25 sampai 50") + tile("Aman", j.aman, "nada-biru", "pasar, skor di bawah 25");
   $("k-tabel").querySelector("tbody").innerHTML = d.tabel.map((r, i) =>
     `<tr><td><span class="nama">${i + 1}. ${esc(r.pasar)}</span><span class="prov">${esc(r.provinsi)}</span></td><td>${sel(r.prediksi)}</td>` +
-    `<td>${sel(r.tingkat)}<br><span class="bar" style="margin-top:.4rem"><b style="width:${Math.min(100, r.skor)}%;background:${WARNA_TINGKAT[r.tingkat]}"></b></span>${r.skor.toFixed(0)}/100</td>` +
+    `<td><span class="bar"><b style="width:${Math.min(100, r.peluang)}%;background:#ee7f6b"></b></span>${r.peluang.toFixed(0)}%</td>` +
     `<td>${esc(r.alasan)}</td></tr>`).join("");
-  $("k-unduh").href = "/unduh/rekomendasi.csv?" + new URLSearchParams({prov: $("k-prov").value});
+  $("k-unduh").href = "/unduh/peringkat.csv?" + new URLSearchParams({prov: $("k-prov").value});
 }
 
 $("k-prov").addEventListener("change", muatPeringatan);
@@ -44,7 +38,7 @@ async function muatEksternal() {
   let d;
   try { d = await ambil("/api/eksternal", {prov: $("e-prov").value, kab: $("e-kab").value}); } catch (e) { memuat("e-ramadan", false); return; }
   memuat("e-ramadan", false);
-  const perintah = 'Jalankan <code>notebooks/8_data_tambahan.ipynb</code> lalu restart server.';
+  const perintah = 'Jalankan <code>notebooks/7_data_tambahan.ipynb</code> lalu restart server.';
   const rs = d.ramadan_stat;
   $("e-kartu").innerHTML =
     kartuSumber("Kalender Ramadan", d.ramadan_berikut || "-", "Ramadan berikutnya", true) +
@@ -56,7 +50,7 @@ async function muatEksternal() {
   if (d.grafik_ramadan) {
     gambar("e-ramadan", d.grafik_ramadan);
     $("e-ramadan-cat").textContent = rs && rs.saat !== null && rs.lain !== null
-      ? `Rata-rata inflasi y/y indeks pangan: ${angka(rs.saat, 1)}% pada bulan Ramadan dibanding ${angka(rs.lain, 1)}% pada bulan lain (8 tahun terakhir). Ini deskripsi, bukan bukti sebab-akibat.` : "";
+      ? `Rata-rata perubahan harga indeks pangan: ${angka(rs.saat, 1)}% per bulan pada bulan Ramadan dibanding ${angka(rs.lain, 1)}% pada bulan lain (8 tahun terakhir). Ini deskripsi, bukan bukti sebab-akibat.` : "";
   } else {
     Plotly.purge("e-ramadan");
   }
@@ -73,7 +67,7 @@ async function muatHubungan() {
   if (!$("x-grafik")) return;
   memuat("x-grafik", true);
   let d;
-  try { d = await ambil("/api/hubungan", Object.assign({item: $("x-item").value, faktor: $("x-faktor").value, jeda: $("x-jeda").value}, wilayahE())); } catch (e) { memuat("x-grafik", false); $("x-catatan").textContent = e.message; return; }
+  try { d = await ambil("/api/hubungan", Object.assign({item: $("x-item").value, faktor: $("x-faktor").value}, wilayahE())); } catch (e) { memuat("x-grafik", false); $("x-catatan").textContent = e.message; return; }
   memuat("x-grafik", false);
   if (d.kosong) { Plotly.purge("x-grafik"); $("x-catatan").textContent = d.kosong; $("x-chip").innerHTML = ""; return; }
   gambar("x-grafik", d.grafik);
@@ -93,12 +87,12 @@ async function muatKorelasi() {
       if (!c) return '<td class="kanan sub">-</td>';
       const a = Math.min(1, Math.abs(c.r) / 0.6);
       const warna = c.r >= 0 ? `rgba(238,127,107,${(a * 0.45).toFixed(2)})` : `rgba(143,196,238,${(a * 0.55).toFixed(2)})`;
-      return `<td class="kanan tab-num" style="background:${warna}"><b>${esc(c.teks)}</b><span class="prov">jeda ${c.jeda} bulan</span></td>`;
+      return `<td class="kanan tab-num" style="background:${warna}"><b>${esc(c.teks)}</b></td>`;
     }).join("") + "</tr>").join("");
 }
 
 function muatSemuaEks() { muatEksternal(); muatHubungan(); muatKorelasi(); }
-["x-item", "x-faktor", "x-jeda"].forEach((id) => { if ($(id)) $(id).addEventListener("change", muatHubungan); });
+["x-item", "x-faktor"].forEach((id) => { if ($(id)) $(id).addEventListener("change", muatHubungan); });
 $("e-kab").addEventListener("change", muatSemuaEks);
 $("e-prov").addEventListener("change", async () => { await isiKab("e-prov", "e-kab"); muatSemuaEks(); });
 muatSemuaEks();

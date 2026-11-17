@@ -8,8 +8,8 @@ import pandas as pd
 from flask import Flask, Response, abort, redirect, render_template, request
 
 import inti
-from inti import (BATAS_HARGA_PERSEN, BATAS_LONJAKAN, BATAS_PANTAU, BATAS_PRIORITAS, BATAS_WASPADA, BOBOT_MOMENTUM, BOBOT_RISIKO,
-                  BOBOT_VOLATILITAS, KOL_PASAR, KOL_TANGGAL, KOMODITAS, NAMA_KELAS, NAMA_KOMODITAS, batas_geometri, prediksi_harga,
+from inti import (BATAS_HARGA_PERSEN, BATAS_LONJAKAN, BATAS_WASPADA, 
+                  KOL_PASAR, KOL_TANGGAL, KOMODITAS, NAMA_KELAS, NAMA_KOMODITAS, batas_geometri, prediksi_harga,
                   status_inflasi, tabel_peta, zoom_dari_batas)
 
 app = Flask(__name__)
@@ -100,7 +100,7 @@ class Data:
             self.galat = "File data/processed/data_bersih.csv belum ada. Jalankan notebooks/1_cleaning.ipynb dulu."
             return
         if not all(os.path.exists(p) for p in (PASAR_WILAYAH_PATH, GEO_PROVINSI_PATH, GEO_KAB_PATH)):
-            self.galat = "Data peta belum ada. Jalankan notebooks/7_peta_wilayah.ipynb dulu."
+            self.galat = "Data peta belum ada. Jalankan notebooks/6_peta_wilayah.ipynb dulu."
             return
         df = pd.read_csv(DATA_PATH)
         df.columns = [c.strip().lstrip("﻿") for c in df.columns]
@@ -173,7 +173,7 @@ class Data:
         hasil = inti.bandingkan_model(dm, is_train, fitur_kaya, fitur_eksternal)
         terbaru, _, _ = inti.prediksi_terbaru(out, dm, hasil, fitur_kaya)
         klaster = inti.klaster_pasar(df)
-        rek = inti.skor_rekomendasi(terbaru, klaster[0]).join(self.info_pasar[[KOL_PROVINSI]], on=KOL_PASAR)
+        rek = inti.peringkat_risiko(terbaru, klaster[0]).join(self.info_pasar[[KOL_PROVINSI]], on=KOL_PASAR)
         return {"hasil": hasil, "rek": rek, "bulan_akhir": terbaru[KOL_TANGGAL].max(), "tgl_potong": tgl_potong,
                 "peringkat": inti.uji_peringkat(dm, is_train, hasil, 0.1)}
 
@@ -493,7 +493,7 @@ def detail_komoditas(slug):
 def insight():
     if D.galat:
         return halaman("insight")
-    return halaman("insight", ada_faktor=faktor_tersedia(), item_inflasi=[{"nilai": k, "nama": label(k)} for k in D.item_inflasi], **opsi_form())
+    return halaman("insight", ada_faktor=faktor_tersedia(), item_korelasi=[{"nilai": k, "nama": label(k)} for k in D.ada_item], **opsi_form())
 
 
 @app.route("/peringatan-dini")
@@ -502,7 +502,6 @@ def peringatan_lama():
 
 
 NAMA_FAKTOR = {"hujan": "Anomali curah hujan", "suhu": "Anomali suhu", "oni": "Indeks ENSO (ONI)"}
-MAKS_JEDA = 6
 
 
 def faktor_tersedia():
@@ -547,27 +546,26 @@ def api_hubungan():
     prov, kab = baca_wilayah()
     item = request.args.get("item", "rice")
     faktor = request.args.get("faktor", "hujan")
-    jeda = max(0, min(MAKS_JEDA, int(request.args.get("jeda", 0))))
-    kol = f"inflation_{item}"
-    if kol not in D.df.columns:
+    kol = f"c_{item}"
+    if item not in D.ada_item:
         abort(400)
     if faktor not in faktor_tersedia():
-        return balas({"kosong": "Data faktor ini belum diambil. Jalankan notebooks/8_data_tambahan.ipynb lalu restart server."})
+        return balas({"kosong": "Data faktor ini belum diambil. Jalankan notebooks/7_data_tambahan.ipynb lalu restart server."})
     fw = D.saring(prov, kab)
     pasar = None if (prov == SEMUA_PROV and kab == SEMUA_KAB) else fw[KOL_PASAR].unique()
     f = seri_faktor(faktor, pasar)
     s = fw.groupby("bulan")[kol].mean().dropna()
     if f is None or s.empty:
         return balas({"kosong": "Data wilayah ini belum cukup."})
-    fg = geser(f, jeda)
-    r, n = korelasi(s, f, jeda)
+    fg = f
+    r, n = korelasi(s, f, 0)
     satuan = {"hujan": "mm/hari", "suhu": "C", "oni": ""}[faktor]
-    data = [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "name": f"Inflasi {label(item)} (y/y, %)", "line": {"color": "#2b7f5e", "width": 2.5},
-             "hovertemplate": "%{x|%b %Y}: %{y:.1f}%<extra></extra>"},
+    data = [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "name": f"Harga {label(item)} (Rp/kg)", "line": {"color": "#2b7f5e", "width": 2.5},
+             "hovertemplate": "%{x|%b %Y}: Rp %{y:,.0f}<extra></extra>"},
             {"type": "scatter", "x": fg.index, "y": fg.values, "mode": "lines", "yaxis": "y2", "line": {"color": "#5b9bd5", "width": 2},
-             "name": NAMA_FAKTOR[faktor] + (f", digeser {jeda} bulan" if jeda else ""), "hovertemplate": "%{x|%b %Y}: %{y:.2f} " + satuan + "<extra></extra>"}]
+             "name": NAMA_FAKTOR[faktor], "hovertemplate": "%{x|%b %Y}: %{y:.2f} " + satuan + "<extra></extra>"}]
     tata = {"height": 380, "separators": ",.", "margin": {"l": 55, "r": 55, "t": 10, "b": 30}, "legend": {"orientation": "h", "x": 0, "y": 1.12},
-            "yaxis": {"title": {"text": "Inflasi (%)"}}, "yaxis2": {"title": {"text": NAMA_FAKTOR[faktor]}, "overlaying": "y", "side": "right", "showgrid": False},
+            "yaxis": {"title": {"text": "Harga (Rp/kg)"}}, "yaxis2": {"title": {"text": NAMA_FAKTOR[faktor]}, "overlaying": "y", "side": "right", "showgrid": False},
             "xaxis": {"range": [tgl(max(s.index.min(), fg.index.min())), tgl(s.index.max())]}}
     kekuatan = None
     if r is not None:
@@ -582,23 +580,19 @@ def api_korelasi():
     prov, kab = baca_wilayah()
     ada = faktor_tersedia()
     if not ada:
-        return balas({"kosong": "Data cuaca dan ENSO belum diambil. Jalankan notebooks/8_data_tambahan.ipynb lalu restart server."})
+        return balas({"kosong": "Data cuaca dan ENSO belum diambil. Jalankan notebooks/7_data_tambahan.ipynb lalu restart server."})
     fw = D.saring(prov, kab)
     pasar = None if (prov == SEMUA_PROV and kab == SEMUA_KAB) else fw[KOL_PASAR].unique()
     seri = {f: seri_faktor(f, pasar) for f in ada}
     baris = []
-    for k in D.item_inflasi:
-        s = fw.groupby("bulan")[f"inflation_{k}"].mean().dropna()
+    for k in D.ada_item:
+        s = fw.groupby("bulan")[f"c_{k}"].mean().dropna()
         sel = {}
         for f, fs in seri.items():
             if fs is None:
                 continue
-            terbaik = None
-            for j in range(MAKS_JEDA + 1):
-                r, n = korelasi(s, fs, j)
-                if r is not None and (terbaik is None or abs(r) > abs(terbaik["r"])):
-                    terbaik = {"r": r, "jeda": j, "n": n, "teks": dec(r, 2, True)}
-            sel[f] = terbaik
+            r, n = korelasi(s, fs, 0)
+            sel[f] = None if r is None else {"r": r, "n": n, "teks": dec(r, 2, True)}
         baris.append({"nama": label(k), "slug": SLUG.get(k, k), "sel": sel})
     return balas({"faktor": [{"kunci": f, "nama": NAMA_FAKTOR[f]} for f in ada], "baris": baris, "wilayah": D.nama_wilayah(prov, kab)})
 
@@ -658,7 +652,7 @@ def tidak_ada(e):
 def api_eksternal():
     prov, kab = baca_wilayah()
     fw = D.saring(prov, kab)
-    kol_inf = f"inflation_{inti.KOL_INDEKS}"
+    kol_inf = f"c_{inti.KOL_INDEKS}"
     kal = inti.kalender_ramadan(2006, 2028)
     akhir = D.df["bulan"].max()
     awal = akhir - pd.DateOffset(years=8)
@@ -671,14 +665,14 @@ def api_eksternal():
     isi = {"wilayah": D.nama_wilayah(prov, kab), "sumber": {"cuaca": D.cuaca is not None, "oni": D.oni is not None}}
     isi["ramadan_berikut"] = bulan_id(depan["bulan"].iloc[0]) if len(depan) else None
     if kol_inf in fw.columns:
-        s = fw.groupby("bulan")[kol_inf].mean().dropna()
+        s = fw.groupby("bulan")[kol_inf].mean().dropna().pct_change().dropna() * 100
         s = s[s.index >= awal]
         kal_i = kal.set_index("bulan")["ramadan_ada"].reindex(s.index)
         saat, lain = s[kal_i == 1], s[kal_i == 0]
         isi["ramadan_stat"] = {"saat": float(saat.mean()) if len(saat) else None, "lain": float(lain.mean()) if len(lain) else None}
         isi["grafik_ramadan"] = {"data": [{"type": "scatter", "x": s.index, "y": s.values, "mode": "lines", "line": {"color": "#243a32", "width": 2},
-                                           "name": "Inflasi indeks pangan (y/y)", "hovertemplate": "%{x|%b %Y}: %{y:.1f}%<extra></extra>"}],
-                                 "layout": {"height": 340, "separators": ",.", "margin": {"l": 55, "r": 10, "t": 10, "b": 30}, "yaxis": {"title": {"text": "Inflasi (%)"}},
+                                           "name": "Perubahan harga indeks pangan", "hovertemplate": "%{x|%b %Y}: %{y:.1f}%<extra></extra>"}],
+                                 "layout": {"height": 340, "separators": ",.", "margin": {"l": 55, "r": 10, "t": 10, "b": 30}, "yaxis": {"title": {"text": "Perubahan harga (%/bulan)"}},
                                             "shapes": bentuk_ramadan + bentuk_ied}}
     if D.cuaca is not None:
         c = D.cuaca
@@ -716,7 +710,7 @@ def api_eksternal():
     return balas(isi)
 
 
-def rekomendasi_wilayah(prov):
+def peringkat_wilayah(prov):
     a = D.analisis()
     if a is None:
         return None, None
@@ -729,16 +723,15 @@ def rekomendasi_wilayah(prov):
 @app.route("/api/keputusan")
 def api_keputusan():
     prov, _ = baca_wilayah()
-    a, rek = rekomendasi_wilayah(prov)
+    a, rek = peringkat_wilayah(prov)
     if a is None:
-        return balas({"kosong": "Data inflasi belum cukup untuk menyusun rekomendasi."})
-    hitung = rek["tingkat"].value_counts()
+        return balas({"kosong": "Data inflasi belum cukup untuk menyusun peringkat risiko."})
     top = rek.head(10).copy()
     baris = []
     tipe = top["label_klaster"].str.replace(r"^Klaster \d+: ", "", regex=True).str.capitalize()
     for i, (_, r) in enumerate(top.iterrows()):
         baris.append({"pasar": r[KOL_PASAR], "provinsi": D.nama_provinsi(r[KOL_PROVINSI]), "tipe": tipe.iloc[i], "prediksi": r["status_prediksi_bulan_depan"],
-                      "skor": float(r["skor_prioritas"]), "tingkat": r["tingkat"], "alasan": r["alasan"]})
+                      "peluang": float(r["peluang_lonjakan"]), "alasan": r["alasan"]})
     metrik = a["hasil"]["metrik"]
     terbaik = a["hasil"]["terbaik"]
     f1_model, f1_dasar = metrik.loc[terbaik, "F1 (macro)"], metrik.loc["Tebakan sederhana", "F1 (macro)"]
@@ -747,8 +740,7 @@ def api_keputusan():
     catatan = (f"Model: {terbaik}, dilatih sampai {bulan_id(a['tgl_potong'] - pd.DateOffset(months=1), True)} dan diuji sesudahnya. Akurasi kelasnya {banding} tebakan sederhana "
                f"\"status bulan depan sama dengan bulan ini\" (F1 {dec(f1_model, 2)} dibanding {dec(f1_dasar, 2)}). Sebagai pemeringkat risiko, "
                f"{pr['persen']:.0%} pasar teratas menangkap {pr['tertangkap']:.0%} lonjakan aktual di data uji (lonjakan hanya {dec(pr['dasar'] * 100)}% dari seluruh data uji). "
-               f"Skor = {dec(BOBOT_RISIKO)} x risiko + {dec(BOBOT_MOMENTUM)} x momentum inflasi + {dec(BOBOT_VOLATILITAS)} x volatilitas tipe pasar; bobot ditetapkan kelompok. "
-               f"Prioritas tinggi bila skor di atas {BATAS_PRIORITAS}, pantau ketat bila di atas {BATAS_PANTAU}.")
+               "Pasar diurutkan menurut peluang lonjakan (probabilitas kelas Lonjakan) dari model terbaik.")
     sumber = ["World Bank Real-Time Food Prices (RTFP): harga, inflasi, dan skor kepercayaan 9 komoditas di 222 pasar", "GADM 4.1: batas provinsi dan kab/kota untuk peta"]
     ada_eks = D.cuaca is not None or D.oni is not None
     if D.cuaca is not None:
@@ -759,24 +751,22 @@ def api_keputusan():
         sumber.append("Kalender Ramadan dan Idulfitri dari kalender Hijriah tabular")
     tabel_metrik = [{"model": str(m), "akurasi": float(r["Akurasi"]), "f1": float(r["F1 (macro)"])} for m, r in metrik.iterrows()]
     return balas({"judul": f"Pasar dengan risiko lonjakan tertinggi pada bulan setelah {bulan_id(a['bulan_akhir'])}",
-                  "ringkas": f"Dari {len(rek)} pasar: {int(hitung.get('Prioritas tinggi', 0))} prioritas tinggi, {int(hitung.get('Pantau ketat', 0))} pantau ketat, "
-                             f"{int(hitung.get('Aman', 0))} aman. Berikut 10 pasar dengan skor risiko tertinggi.",
-                  "jumlah": {"tinggi": int(hitung.get("Prioritas tinggi", 0)), "pantau": int(hitung.get("Pantau ketat", 0)), "aman": int(hitung.get("Aman", 0)), "total": len(rek)},
+                  "ringkas": f"Dari {len(rek)} pasar. Berikut 10 pasar dengan peluang lonjakan tertinggi menurut model.",
                   "terbaik": str(terbaik), "tabel": baris, "catatan": catatan, "sumber": sumber, "metrik": tabel_metrik,
-                  "info_eksternal": None if ada_eks else "Data tambahan (cuaca, ENSO, Ramadan) belum diambil. Jalankan notebooks/8_data_tambahan.ipynb lalu muat ulang dashboard.",
+                  "info_eksternal": None if ada_eks else "Data tambahan (cuaca, ENSO, Ramadan) belum diambil. Jalankan notebooks/7_data_tambahan.ipynb lalu muat ulang dashboard.",
                   "catatan_metrik": "Klasifikasi ini adalah supervised learning: label berasal dari status inflasi aktual bulan depan. "
                                     "Dua baseline dipakai sebagai pembanding: tebakan sederhana dan selalu menebak Normal."})
 
 
-@app.route("/unduh/rekomendasi.csv")
-def unduh_rekomendasi():
+@app.route("/unduh/peringkat.csv")
+def unduh_peringkat():
     prov, _ = baca_wilayah()
-    a, rek = rekomendasi_wilayah(prov)
+    a, rek = peringkat_wilayah(prov)
     if a is None:
         abort(404)
-    kolom = [KOL_PASAR, KOL_PROVINSI, "skor_prioritas", "tingkat", "status_prediksi_bulan_depan", "label_klaster", "alasan", "rekomendasi"]
+    kolom = [KOL_PASAR, KOL_PROVINSI, "peluang_lonjakan", "status_prediksi_bulan_depan", "label_klaster", "alasan"]
     isi = rek[kolom].to_csv(index=False)
-    return Response(isi, mimetype="text/csv", headers={"Content-Disposition": "attachment; filename=rekomendasi_keputusan.csv"})
+    return Response(isi, mimetype="text/csv", headers={"Content-Disposition": "attachment; filename=peringkat_risiko.csv"})
 
 
 

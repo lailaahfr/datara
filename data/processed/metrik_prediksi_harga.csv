@@ -1,0 +1,10 @@
+Komoditas,Model terpilih,MAPE terpilih (%),Harga tetap,Tren teredam,Linear (36 bulan),Polinomial derajat 2 (36 bulan)
+eggs,Harga tetap,2.537845614290523,2.54,3.14,4.45,4.43
+garlic,Harga tetap,4.994438536811649,4.99,6.66,12.62,10.45
+meat_beef,Tren teredam,0.9764812612408126,0.98,0.98,1.78,1.77
+meat_chicken,Linear (36 bulan),4.256143856741125,4.41,5.54,4.26,5.0
+meat_chicken_broiler,Linear (36 bulan),4.23374704233117,4.45,5.62,4.23,4.97
+oil,Tren teredam,1.8448312448720552,2.34,1.84,4.99,8.28
+onions,Linear (36 bulan),10.855783749315332,12.39,16.09,10.86,12.68
+rice,Harga tetap,0.8386792318022631,0.84,1.15,4.5,5.0
+sugar,Harga tetap,2.0526309030080263,2.05,3.05,4.93,7.07

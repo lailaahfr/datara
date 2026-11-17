@@ -24,11 +24,6 @@ FITUR_DASAR = ['inflasi_ini', 'inflasi_lalu', 'bulan']
 PERSEN_TEST = 0.2
 TAHUN_ACUAN_AKHIR = 2019
 
-BOBOT_RISIKO = 0.6
-BOBOT_MOMENTUM = 0.2
-BOBOT_VOLATILITAS = 0.2
-BATAS_PRIORITAS = 50
-BATAS_PANTAU = 25
 BATAS_HARGA_PERSEN = 5
 
 NAMA_KOMODITAS = {
@@ -198,16 +193,12 @@ def alasan_pasar(r):
     return teks[0].upper() + teks[1:]
 
 
-def skor_rekomendasi(terbaru, prof):
+def peringkat_risiko(terbaru, prof):
     t = terbaru.copy()
-    risiko = (t['p_waspada'] * 0.5 + t['p_lonjakan'] * 1.0) * 100
-    momentum = ((t['inflasi_ini'] - t['inflasi_lalu']) / 10).clip(0, 1) * 100
     vol_pct = prof['volatilitas_inflasi'].rank(pct=True) * 100
     t['label_klaster'] = t[KOL_PASAR].map(prof['label_klaster'])
     t['volatilitas_pct'] = t[KOL_PASAR].map(vol_pct).fillna(vol_pct.median())
-    t['skor_prioritas'] = (BOBOT_RISIKO * risiko + BOBOT_MOMENTUM * momentum + BOBOT_VOLATILITAS * t['volatilitas_pct']).round(1)
-    t['tingkat'] = np.select([t['skor_prioritas'] >= BATAS_PRIORITAS, t['skor_prioritas'] >= BATAS_PANTAU],
-                             ['Prioritas tinggi', 'Pantau ketat'], default='Aman')
+    t['peluang_lonjakan'] = (t['p_lonjakan'] * 100).round(1)
     kol_inf = [c for c in t.columns if c.startswith('inf_')]
     if kol_inf:
         t['komoditas_pemicu'] = t[kol_inf].idxmax(axis=1).str.replace('inf_', '', regex=False).map(NAMA_KOMODITAS)
@@ -215,14 +206,11 @@ def skor_rekomendasi(terbaru, prof):
     else:
         t['komoditas_pemicu'] = 'Indeks Pangan'
         t['nilai_pemicu'] = t['inflasi_ini']
-    aksi = {'Prioritas tinggi': 'Siapkan operasi pasar dan cek pasokan', 'Pantau ketat': 'Pantau harga mingguan', 'Aman': 'Pemantauan rutin bulanan'}
-    t['rekomendasi'] = t['tingkat'].map(aksi)
-    t.loc[t['tingkat'] != 'Aman', 'rekomendasi'] += ' (pemicu: ' + t.loc[t['tingkat'] != 'Aman', 'komoditas_pemicu'] + ')'
     tanpa_survei = t['obs_12b'] == 0 if 'obs_12b' in t.columns else pd.Series(False, index=t.index)
     rentang_lebar = t['rentang_harga'] >= t['rentang_harga'].quantile(0.9) if 'rentang_harga' in t.columns else pd.Series(False, index=t.index)
     t['perlu_verifikasi'] = tanpa_survei | rentang_lebar
     t['alasan'] = t.apply(alasan_pasar, axis=1)
-    return t.sort_values('skor_prioritas', ascending=False)
+    return t.sort_values(['p_lonjakan', 'p_waspada'], ascending=False)
 
 
 
@@ -391,7 +379,7 @@ def uji_peringkat(dm, is_train, hasil, persen=0.1):
     jenis, fitur = hasil['skenario'][hasil['terbaik']]
     proba = hasil['model'][hasil['terbaik']].predict_proba(dm.loc[~is_train, fitur])
     kelas = list(hasil['model'][hasil['terbaik']].classes_)
-    risiko = proba[:, kelas.index(1)] * 0.5 + proba[:, kelas.index(2)] if 2 in kelas else proba[:, kelas.index(1)] * 0.5
+    risiko = proba[:, kelas.index(2)] if 2 in kelas else np.zeros(len(proba))
     lonjakan = (hasil['y_test'].values == 2)
     n_teratas = max(int(len(risiko) * persen), 1)
     teratas = np.argsort(-risiko)[:n_teratas]

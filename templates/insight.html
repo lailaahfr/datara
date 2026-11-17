@@ -11,9 +11,8 @@
 <div id="k-pesan" class="pesan" hidden></div>
 <div id="k-isi" hidden>
   <div class="insight-atas"><h2 id="k-judul"></h2><p id="k-ringkas"></p></div>
-  <div class="stat-baris" id="k-tiles" style="grid-template-columns:repeat(3,1fr)"></div>
   <section class="kartu mb">
-    <div class="gulir"><table class="tabel" id="k-tabel"><thead><tr><th>Pasar</th><th>Prediksi bulan depan</th><th>Tingkat risiko</th><th>Alasan</th></tr></thead><tbody></tbody></table></div>
+    <div class="gulir"><table class="tabel" id="k-tabel"><thead><tr><th>Pasar</th><th>Prediksi bulan depan</th><th>Peluang lonjakan</th><th>Alasan</th></tr></thead><tbody></tbody></table></div>
     <p style="padding:.8rem 1rem"><a id="k-unduh" class="tombol" href="#">Unduh seluruh daftar (CSV)</a></p>
   </section>
 </div>
@@ -27,7 +26,7 @@
 </div>
 <div class="sumber-grid" id="e-kartu"></div>
 <section class="kartu kartu-pad mb">
-  <div class="kepala-kartu"><div><h2>Inflasi pangan dan bulan Ramadan</h2><p class="sub">Blok hijau muda: bulan Ramadan. Garis putus-putus: bulan Idulfitri.</p></div></div>
+  <div class="kepala-kartu"><div><h2>Harga pangan dan bulan Ramadan</h2><p class="sub">Blok hijau muda: bulan Ramadan. Garis putus-putus: bulan Idulfitri.</p></div></div>
   <div id="e-ramadan" class="plot"></div><p class="catatan" id="e-ramadan-cat"></p>
 </section>
 <div class="grid-dua mb">
@@ -36,32 +35,31 @@
   <section class="kartu kartu-pad"><div class="kepala-kartu"><div><h2>Indeks ENSO (ONI)</h2><p class="sub">NOAA CPC. Merah muda: El Nino, biru muda: La Nina</p></div></div>
     <div id="e-oni" class="plot"></div><div id="e-oni-kosong" class="kosong" hidden></div></section>
 </div>
-<h2 class="judul-seksi">Hubungan dengan inflasi pangan</h2>
-<p class="sub" style="margin-bottom:1rem">Faktor eksternal dibandingkan langsung dengan inflasi komoditas pada sumbu waktu yang sama. Wilayah mengikuti filter di atas.</p>
+<h2 class="judul-seksi">Hubungan dengan harga pangan</h2>
+<p class="sub" style="margin-bottom:1rem">Faktor eksternal dibandingkan langsung dengan harga rata-rata bulanan komoditas pada sumbu waktu yang sama. Wilayah mengikuti filter di atas.</p>
 <section class="kartu kartu-pad mb">
   {% if ada_faktor %}
-  <div class="kepala-kartu"><div><h2>Grafik tumpuk</h2><p class="sub" id="h-sub">Faktor digeser maju sesuai jeda: kolom jeda 3 berarti faktor tiga bulan sebelumnya disejajarkan dengan inflasi hari ini.</p></div>
+  <div class="kepala-kartu"><div><h2>Grafik tumpuk</h2><p class="sub" id="h-sub">Faktor dan harga dibandingkan pada bulan yang sama.</p></div>
     <div class="filter">
-      <label>Komoditas <select id="x-item">{% for k in item_inflasi %}<option value="{{ k.nilai }}" {{ 'selected' if k.nilai == 'onions' }}>{{ k.nama }}</option>{% endfor %}</select></label>
+      <label>Komoditas <select id="x-item">{% for k in item_korelasi %}<option value="{{ k.nilai }}" {{ 'selected' if k.nilai == 'onions' }}>{{ k.nama }}</option>{% endfor %}</select></label>
       <label>Faktor <select id="x-faktor">
         {% if 'hujan' in ada_faktor %}<option value="hujan">Anomali curah hujan</option><option value="suhu">Anomali suhu</option>{% endif %}
         {% if 'oni' in ada_faktor %}<option value="oni">Indeks ENSO (ONI)</option>{% endif %}</select></label>
-      <label>Jeda <select id="x-jeda">{% for j in range(0, 7) %}<option value="{{ j }}" {{ 'selected' if j == 3 }}>{{ j }} bulan</option>{% endfor %}</select></label>
     </div>
   </div>
   <div id="x-chip" class="chip-baris"></div>
   <div id="x-grafik" class="plot"></div>
   <p class="catatan" id="x-catatan"></p>
   {% else %}
-  <div class="kosong">Data cuaca (NASA POWER) dan ENSO (NOAA ONI) belum diambil, jadi grafik ini belum bisa ditampilkan. Jalankan <code>notebooks/8_data_tambahan.ipynb</code> lalu restart server.</div>
+  <div class="kosong">Data cuaca (NASA POWER) dan ENSO (NOAA ONI) belum diambil, jadi grafik ini belum bisa ditampilkan. Jalankan <code>notebooks/7_data_tambahan.ipynb</code> lalu restart server.</div>
   {% endif %}
 </section>
 {% if ada_faktor %}
 <section class="kartu mb">
   <div class="kartu-tabel-kepala"><h2>Tabel korelasi per komoditas</h2>
-    <p class="sub" id="k-sub">Korelasi tertinggi (nilai mutlak) antara inflasi dan faktor pada jeda 0 sampai 6 bulan.</p></div>
+    <p class="sub" id="k-sub">Korelasi antara harga dan faktor pada bulan yang sama.</p></div>
   <div class="gulir"><table class="tabel" id="x-tabel"><thead><tr id="x-kepala"></tr></thead><tbody></tbody></table></div>
-  <p class="catatan" style="padding:0 1.2rem 1rem">Angka adalah koefisien korelasi (-1 sampai +1) dan jeda terbaiknya. Ini korelasi, bukan sebab-akibat. Karena tujuh jeda dicoba, nilai terbaik cenderung terlihat lebih kuat dari kenyataannya, dan inflasi tahunan yang berubah pelan mudah tampak berkorelasi dengan faktor musiman. Anomali dihitung terhadap rata-rata bulanan 2007 sampai 2019.</p>
+  <p class="catatan" style="padding:0 1.2rem 1rem">Angka adalah koefisien korelasi (-1 sampai +1). Ini korelasi, bukan sebab-akibat. Harga yang naik pelan dari tahun ke tahun mudah tampak berkorelasi dengan faktor yang juga berubah pelan seperti suhu dan ENSO. Anomali dihitung terhadap rata-rata bulanan 2007 sampai 2019.</p>
 </section>
 {% endif %}
 {% endblock %}
