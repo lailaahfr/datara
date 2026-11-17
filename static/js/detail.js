@@ -21,7 +21,7 @@ async function muatInflasi() {
     $("d-inflasi").textContent = d.kosong;
     return;
   }
-  $("d-inflasi").textContent = "";
+  if ($("d-inflasi").textContent) { Plotly.purge("d-inflasi"); $("d-inflasi").textContent = ""; }
   gambar("d-inflasi", d.grafik);
   gambar("d-ranking", d.ranking);
   $("d-bulan-rank").textContent = "Bulan " + d.bulan_ranking + ", rata-rata semua pasar per provinsi";

@@ -67,7 +67,7 @@ Klasifikasi status inflasi pada data uji (hanya data RTFP; hasil dengan cuaca da
 | Tebakan sederhana          |   0,707 |      0,603 |
 | Selalu tebak Normal        |   0,655 |      0,264 |
 
-Baseline "tebakan sederhana" masih sedikit lebih baik daripada semua model, karena inflasi tahunan sangat persisten dari bulan ke bulan. Nilai tambah model ada pada fungsinya sebagai pemeringkat risiko: lihat uji peringkat di halaman Insight, yaitu berapa persen lonjakan aktual yang tertangkap oleh 10% pasar teratas.
+Baseline "tebakan sederhana" masih sedikit lebih baik daripada semua model, karena inflasi tahunan sangat persisten dari bulan ke bulan. Nilai tambah model ada pada fungsinya sebagai pemeringkat risiko: lihat uji peringkat di `notebooks/4_klasifikasi_status.ipynb`, yaitu berapa persen lonjakan aktual yang tertangkap oleh 10% pasar teratas.
 
 Prediksi harga (MAPE uji mundur 6 langkah) bervariasi per komoditas, mulai sekitar 0,8% (beras) sampai sekitar 10,9% (bawang merah); untuk beberapa komoditas model terpilih adalah harga tetap, artinya tidak ada tren yang dapat diandalkan.
 
@@ -85,8 +85,9 @@ Taruh data mentah di `data/raw/IDN_RTFP_mkt_2007_2026-08-24.csv`, lalu jalankan 
 ```text
 notebooks/1_cleaning.ipynb          -> data/processed/data_bersih.csv
 notebooks/7_data_tambahan.ipynb     -> data/external/  (perlu internet, boleh dilewati)
-notebooks/6_peta_wilayah.ipynb      -> data/geo/ dan data/processed/pasar_wilayah.csv
+notebooks/6_peta_wilayah.ipynb      -> data/processed/pasar_wilayah.csv
 ```
+Notebook 6 membaca batas wilayah dari `data/geo/provinsi.geojson` dan `data/geo/kabkota.geojson` (berasal dari GADM 4.1, sudah ada di repo), jadi tidak perlu mengunduh apa pun.
 Notebook 2 sampai 5 bersifat analisis dan bahan laporan; dashboard melatih modelnya sendiri sehingga tidak harus menunggu notebook itu.
 
 ### 3. Jalankan dashboard
