@@ -1,14 +1,6 @@
 # DATARA: Sistem Informasi Pemantauan dan Prediksi Harga Pangan Indonesia
 
-DATARA adalah sistem informasi berbasis web (Flask) untuk memantau dan memprediksi harga 9 komoditas pangan di 222 pasar Indonesia. Sistem menggabungkan tiga sumber data (harga pangan World Bank RTFP, cuaca NASA POWER, dan indeks iklim ENSO dari NOAA, ditambah kalender Ramadan) lalu menghasilkan peta harga, prediksi harga 6 bulan, dan peringatan dini lonjakan harga berupa daftar pasar berisiko tertinggi bulan depan.
-
----
-
-## Latar Belakang
-
-Harga pangan yang naik tiba-tiba menekan rumah tangga berpendapatan rendah dan menyulitkan pemerintah daerah menentukan di mana harus bertindak lebih dulu. Pantauan yang ada umumnya berupa angka rata-rata nasional, padahal harga dan gejolaknya berbeda jauh antarwilayah dan antarpasar.
-
-DATARA menjawab tiga pertanyaan: berapa harga pangan di tiap wilayah dan seberapa bergejolak, ke mana arah harga enam bulan ke depan, dan pasar mana yang berisiko mengalami lonjakan harga bulan depan.
+DATARA adalah sistem informasi berbasis web (Flask) untuk memantau dan memprediksi harga 9 komoditas pangan di 222 pasar Indonesia. Sistem menggabungkan tiga sumber data (harga pangan World Bank RTFP, cuaca NASA POWER, dan indeks iklim ENSO dari NOAA, ditambah kalender Ramadan) lalu menghasilkan peta harga, prediksi harga 6 bulan.
 
 ---
 
@@ -48,10 +40,7 @@ Empat kandidat model: harga tetap, tren teredam, linear 36 bulan, dan polinomial
 - Baseline: tebakan sederhana (status bulan depan sama dengan bulan ini) dan selalu menebak Normal
 
 ### Klastering pasar (unsupervised learning)
-K-Means pada profil harga dan gejolak tiap pasar, jumlah klaster dipilih dengan silhouette (k = 3 sampai 6). Terpilih k = 4 dengan silhouette sekitar 0,18, yang berarti pemisahan klaster cukup lemah dan dipakai sebagai pengelompokan kasar, bukan batas tegas.
-
-### Peringkat risiko pasar
-Pasar diurutkan menurut peluang lonjakan, yaitu probabilitas kelas Lonjakan dari model klasifikasi terbaik. Tidak ada bobot atau ambang buatan sendiri.
+K-Means pada profil harga dan gejolak tiap pasar, jumlah klaster dipilih dengan silhouette (k = 3 sampai 6). Terpilih k = 4 dengan silhouette sekitar 0,18, yang berarti pemisahan klaster cukup lemah dan dipakai sebagai pengelompokan kasar, bukan batas tegas
 
 ---
 
@@ -105,15 +94,6 @@ Model untuk daftar pasar berisiko di Beranda dilatih di latar belakang saat serv
 - **Beranda** (`/`): judul Datara (data pangan Nusantara) dengan kotak cakupan data (jumlah pasar, provinsi, dan komoditas); sembilan kartu komoditas berwarna menurut arah harga dibanding bulan lalu; peta harga per wilayah dengan pilihan komoditas, tahun, provinsi, dan kota/kabupaten (tabel wilayah bisa dibuka di bawah peta); serta panel samping berisi komoditas yang perlu diperhatikan dan lima pasar dengan risiko lonjakan tertinggi bulan depan beserta kelas prediksinya (peringatan dini dari model klasifikasi).
 - **Komoditas** (`/komoditas`): tabel perbandingan harga dan inflasi semua komoditas. Tiap komoditas punya halaman detail (`/komoditas/beras`) berisi pasar termurah dan termahal, grafik candlestick dengan prediksi 6 bulan dan pita ketidakpastian, grafik inflasi y/y, peringkat 10 provinsi dengan inflasi tertinggi, dan tabel harga per provinsi.
 - **Insight** (`/insight`): data tambahan di luar harga, yaitu perubahan harga pangan dengan penanda Ramadan, curah hujan dan suhu NASA POWER, serta indeks ENSO NOAA, ditambah grafik tumpuk dan tabel korelasi antara harga komoditas dan faktor tersebut. Hasil pengujiannya: korelasi lemah sampai sedang dan fitur eksternal tidak menaikkan F1 model.
-
----
-
-## Keterbatasan
-
-- Model status inflasi belum mengungguli baseline sederhana pada metrik akurasi dan F1.
-- Hanya 22% poligon kabupaten/kota memiliki pasar, sehingga sebagian besar peta tingkat kabupaten berwarna abu-abu.
-- Survei harga langsung tidak tersedia di semua tahun (0% pada 2007 sampai 2015 dan 2018 sampai 2019); pasar tanpa survei langsung dalam 12 bulan diberi tanda perlu verifikasi.
-- Pengolahan memakai pandas dan scikit-learn pada satu mesin; data berukuran puluhan ribu baris dari tiga sumber, bukan skala terdistribusi.
 
 ---
 

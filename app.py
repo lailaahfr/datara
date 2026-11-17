@@ -355,7 +355,7 @@ def api_prediksi():
             isi["candle_catatan"] = (f"Setiap batang adalah satu bulan: hijau bila harga akhir lebih tinggi dari harga awal, merah bila lebih rendah. "
                                      f"Model dipilih otomatis lewat uji mundur {JUMLAH_PRODUK_UJI} bulan: {hasil['model']} "
                                      f"(rata-rata kesalahan {dec(hasil['mape'])}%). Pita oranye adalah rentang ketidakpastian dari 90% kesalahan uji mundur. "
-                                     "Prediksi menunjukkan arah tren dan tidak menangkap lonjakan mendadak; lonjakan dipantau lewat grafik inflasi di halaman ini dan halaman Insight.")
+                                     "Prediksi menunjukkan arah tren dan tidak menangkap lonjakan mendadak; lonjakan dipantau lewat grafik inflasi di halaman ini dan daftar pasar berisiko di Beranda.")
     else:
         isi["candle_info"] = "Kolom open, high, low, dan close untuk komoditas ini tidak tersedia."
     return balas(isi)
