@@ -3,15 +3,27 @@
 {% block isi %}
 <section class="kepala-hal" aria-labelledby="kabar-judul">
   <div>
-    <p class="tgl">{{ bulan }}, rata-rata {{ n_pasar }} pasar di {{ n_prov }} provinsi</p>
-    <h1 id="kabar-judul">{{ kabar.judul }}</h1>
+    <p class="tgl">Data pangan Nusantara, data terakhir {{ bulan }}</p>
+    <h1 id="kabar-judul">Pantau harga pangan di seluruh Indonesia</h1>
   </div>
-  <div class="hitung" aria-label="Ringkasan arah harga dari bulan lalu">
-    <div class="naik"><div class="n">{{ hitung.naik }}</div><div class="t">naik</div></div>
-    <div class="turun"><div class="n">{{ hitung.turun }}</div><div class="t">turun</div></div>
-    <div class="stabil"><div class="n">{{ hitung.stabil }}</div><div class="t">stabil</div></div>
+  <div class="hitung" aria-label="Cakupan data">
+    <div class="a"><div class="n">{{ n_pasar }}</div><div class="t">pasar</div></div>
+    <div class="b"><div class="n">{{ n_prov }}</div><div class="t">provinsi</div></div>
+    <div class="c"><div class="n">{{ rk|length }}</div><div class="t">komoditas</div></div>
   </div>
 </section>
+
+<h2 class="mini-judul">Sembilan komoditas yang dipantau</h2>
+<p class="sub">Warna menunjukkan arah harga dibanding bulan lalu: merah muda naik, biru muda turun, abu-abu stabil. Klik untuk melihat tren dan prediksi.</p>
+<div class="mini">
+{% for r in rk %}
+  <a class="{{ r.arah }}" href="/komoditas/{{ r.slug }}">
+    <div class="nm">{{ r.nama }}</div>
+    <div class="hg tab-num">{{ rupiah(r.harga) }}</div>
+    <div class="ch">{{ 'Naik' if r.arah == 'naik' else 'Turun' if r.arah == 'turun' else 'Stabil' }} {{ dec(r.mom|abs, 1) }}%</div>
+  </a>
+{% endfor %}
+</div>
 
 <div class="utama">
   <section class="kartu peta-kartu" aria-labelledby="judul-peta">
@@ -57,21 +69,8 @@
     {% endfor %}
     <h2>Pasar berisiko bulan depan</h2>
     <div class="kartu daftar-risiko" id="risiko"><p class="sub" style="padding:.7rem 0">Menyiapkan model...</p></div>
-    <a class="tautan-kecil" href="/insight">Lihat 10 pasar teratas di Insight</a>
+    <p class="sub">Lima pasar dengan risiko lonjakan tertinggi bulan depan menurut model, beserta kelas prediksinya.</p>
   </aside>
 </div>
-
-<h2 class="mini-judul">Sembilan komoditas yang dipantau</h2>
-<p class="sub">Warna menunjukkan arah harga dibanding bulan lalu: merah muda naik, biru muda turun, abu-abu stabil. Klik untuk melihat tren dan prediksi.</p>
-<div class="mini">
-{% for r in rk %}
-  <a class="{{ r.arah }}" href="/komoditas/{{ r.slug }}">
-    <div class="nm">{{ r.nama }}</div>
-    <div class="hg tab-num">{{ rupiah(r.harga) }}</div>
-    <div class="ch">{{ 'Naik' if r.arah == 'naik' else 'Turun' if r.arah == 'turun' else 'Stabil' }} {{ dec(r.mom|abs, 1) }}%</div>
-  </a>
-{% endfor %}
-</div>
-<p class="data-akhir">Data terakhir: {{ bulan }}. Sumber: World Bank RTFP</p>
 {% endblock %}
 {% block skrip %}<script src="{{ url_for('static', filename='js/beranda.js') }}"></script>{% endblock %}

@@ -32,11 +32,24 @@ function pesan(id, teks) {
   el.textContent = teks || "";
 }
 
+function zoomDiTengah(gd) {
+  // zoom scroll mengarah ke tengah peta, bukan ke posisi kursor, supaya peta tidak bergeser
+  try {
+    const peta = gd._fullLayout.map._subplot.map;
+    peta.scrollZoom.disable();
+    peta.scrollZoom.enable({around: "center"});
+  } catch (e) { /* peta belum siap, pakai perilaku bawaan */ }
+}
+
 function gambar(id, fig) {
   fig.layout.font = fontPlot;
   fig.layout.paper_bgcolor = "rgba(0,0,0,0)";
   fig.layout.plot_bgcolor = "rgba(0,0,0,0)";
   ["xaxis", "yaxis"].forEach((a) => { fig.layout[a] = Object.assign({gridcolor: "#e1efe6", zerolinecolor: "#cfe3d7"}, fig.layout[a]); });
+  if (fig.layout.map) {
+    fig.layout.dragmode = "pan";
+    return Plotly.react(id, fig.data, fig.layout, Object.assign({}, aturPlot, {scrollZoom: true})).then((gd) => { zoomDiTengah(gd); return gd; });
+  }
   return Plotly.react(id, fig.data, fig.layout, aturPlot);
 }
 

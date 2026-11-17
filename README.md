@@ -50,14 +50,14 @@ Empat kandidat model: harga tetap, tren teredam, linear 36 bulan, dan polinomial
 ### Klastering pasar (unsupervised learning)
 K-Means pada profil harga dan gejolak tiap pasar, jumlah klaster dipilih dengan silhouette (k = 3 sampai 6). Terpilih k = 4 dengan silhouette sekitar 0,18, yang berarti pemisahan klaster cukup lemah dan dipakai sebagai pengelompokan kasar, bukan batas tegas.
 
-### Skor prioritas pasar
-Skor = 0,6 x risiko (0,5 x P(Waspada) + 1,0 x P(Lonjakan)) + 0,2 x momentum inflasi + 0,2 x persentil volatilitas tipe pasar. Prioritas tinggi bila skor di atas 50, pantau ketat bila di atas 25. Bobot dan ambang ditetapkan kelompok sebagai asumsi, bukan hasil estimasi.
+### Peringkat risiko pasar
+Pasar diurutkan menurut peluang lonjakan, yaitu probabilitas kelas Lonjakan dari model klasifikasi terbaik. Tidak ada bobot atau ambang buatan sendiri.
 
 ---
 
 ## Hasil Eksperimen
 
-Klasifikasi status inflasi pada data uji (hanya data RTFP; hasil dengan cuaca dan ENSO muncul setelah `notebooks/8_data_tambahan.ipynb` dijalankan):
+Klasifikasi status inflasi pada data uji (hanya data RTFP; hasil dengan cuaca dan ENSO muncul setelah `notebooks/7_data_tambahan.ipynb` dijalankan):
 
 | Model atau baseline        | Akurasi | F1 (macro) |
 | -------------------------- | ------: | ---------: |
@@ -84,10 +84,10 @@ pip install -r requirements.txt
 Taruh data mentah di `data/raw/IDN_RTFP_mkt_2007_2026-08-24.csv`, lalu jalankan secara berurutan:
 ```text
 notebooks/1_cleaning.ipynb          -> data/processed/data_bersih.csv
-notebooks/8_data_tambahan.ipynb     -> data/external/  (perlu internet, boleh dilewati)
-notebooks/7_peta_wilayah.ipynb      -> data/geo/ dan data/processed/pasar_wilayah.csv
+notebooks/7_data_tambahan.ipynb     -> data/external/  (perlu internet, boleh dilewati)
+notebooks/6_peta_wilayah.ipynb      -> data/geo/ dan data/processed/pasar_wilayah.csv
 ```
-Notebook 2 sampai 6 bersifat analisis dan bahan laporan; dashboard melatih modelnya sendiri sehingga tidak harus menunggu notebook itu.
+Notebook 2 sampai 5 bersifat analisis dan bahan laporan; dashboard melatih modelnya sendiri sehingga tidak harus menunggu notebook itu.
 
 ### 3. Jalankan dashboard
 ```bash
@@ -95,15 +95,15 @@ python app.py
 ```
 Buka http://127.0.0.1:5000. Untuk server produksi: `gunicorn app:app`.
 
-Model halaman Insight dilatih di latar belakang saat server menyala (sekitar 10 detik), sehingga tab itu siap saat dibuka.
+Model untuk daftar pasar berisiko di Beranda dilatih di latar belakang saat server menyala (sekitar 10 detik), sehingga tab itu siap saat dibuka.
 
 ---
 
 ## Halaman Dashboard
 
-- **Beranda** (`/`): satu kalimat ringkasan bulan ini (komoditas yang naik paling tinggi) dengan jumlah komoditas naik, turun, dan stabil; peta harga per wilayah dengan pilihan komoditas, tahun, provinsi, dan kota/kabupaten (tabel wilayah bisa dibuka di bawah peta); panel samping berisi komoditas yang perlu diperhatikan dan tiga pasar paling berisiko bulan depan; serta sembilan kartu kecil komoditas berwarna menurut arah harga.
+- **Beranda** (`/`): judul Datara (data pangan Nusantara) dengan kotak cakupan data (jumlah pasar, provinsi, dan komoditas); sembilan kartu komoditas berwarna menurut arah harga dibanding bulan lalu; peta harga per wilayah dengan pilihan komoditas, tahun, provinsi, dan kota/kabupaten (tabel wilayah bisa dibuka di bawah peta); serta panel samping berisi komoditas yang perlu diperhatikan dan lima pasar dengan risiko lonjakan tertinggi bulan depan beserta kelas prediksinya (peringatan dini dari model klasifikasi).
 - **Komoditas** (`/komoditas`): tabel perbandingan harga dan inflasi semua komoditas. Tiap komoditas punya halaman detail (`/komoditas/beras`) berisi pasar termurah dan termahal, grafik candlestick dengan prediksi 6 bulan dan pita ketidakpastian, grafik inflasi y/y, peringkat 10 provinsi dengan inflasi tertinggi, dan tabel harga per provinsi.
-- **Insight** (`/insight`): 10 pasar dengan risiko lonjakan tertinggi bulan depan (prediksi, skor, alasan) sebagai peringatan dini agar intervensi seperti operasi pasar dapat diantisipasi lebih awal, dengan filter provinsi dan unduhan CSV; di bawahnya faktor eksternal yang dipakai model: inflasi pangan dengan penanda Ramadan, curah hujan dan suhu NASA POWER, serta indeks ENSO NOAA, ditambah grafik tumpuk dan tabel korelasi per komoditas. Hasil pengujiannya: korelasi lemah sampai sedang dan fitur eksternal tidak menaikkan F1 model.
+- **Insight** (`/insight`): data tambahan di luar harga, yaitu perubahan harga pangan dengan penanda Ramadan, curah hujan dan suhu NASA POWER, serta indeks ENSO NOAA, ditambah grafik tumpuk dan tabel korelasi antara harga komoditas dan faktor tersebut. Hasil pengujiannya: korelasi lemah sampai sedang dan fitur eksternal tidak menaikkan F1 model.
 
 ---
 

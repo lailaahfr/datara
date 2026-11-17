@@ -3,21 +3,10 @@
 {% block isi %}
 <div class="judul-hal">
   <h1>Insight</h1>
-  <p>Peringatan dini: komoditas dan pasar yang berpotensi mengalami lonjakan harga bulan depan, agar intervensi seperti operasi pasar dan penyaluran stok dapat diantisipasi lebih awal. Hasil ini memberi prioritas risiko, bukan jumlah alokasi.</p>
-</div>
-<div class="kartu kartu-pad mb">
-  <div class="filter"><label>Provinsi <select id="k-prov"><option value="Semua Provinsi">Semua Provinsi</option>{% for p in provinsi %}<option value="{{ p.nilai }}">{{ p.nama }}</option>{% endfor %}</select></label></div>
-</div>
-<div id="k-pesan" class="pesan" hidden></div>
-<div id="k-isi" hidden>
-  <div class="insight-atas"><h2 id="k-judul"></h2><p id="k-ringkas"></p></div>
-  <section class="kartu mb">
-    <div class="gulir"><table class="tabel" id="k-tabel"><thead><tr><th>Pasar</th><th>Prediksi bulan depan</th><th>Peluang lonjakan</th><th>Alasan</th></tr></thead><tbody></tbody></table></div>
-    <p style="padding:.8rem 1rem"><a id="k-unduh" class="tombol" href="#">Unduh seluruh daftar (CSV)</a></p>
-  </section>
+  <p>Data tambahan di luar harga: curah hujan, suhu, indeks ENSO, dan bulan Ramadan, beserta hubungannya dengan harga pangan. Faktor-faktor ini dicoba sebagai fitur model prediksi.</p>
 </div>
 <h2 class="judul-seksi" id="faktor-eksternal">Faktor eksternal</h2>
-<p class="sub" style="margin-bottom:1rem">Data tambahan ini dipakai sebagai fitur model prediksi pada daftar pasar di atas.</p>
+<p class="sub" style="margin-bottom:1rem">Pilih provinsi atau kota/kabupaten untuk melihat data wilayahnya.</p>
 <div class="kartu kartu-pad mb">
   <div class="filter">
     <label>Provinsi <select id="e-prov"><option value="Semua Provinsi">Seluruh Indonesia</option>{% for p in provinsi %}<option value="{{ p.nilai }}">{{ p.nama }}</option>{% endfor %}</select></label>
@@ -59,7 +48,7 @@
   <div class="kartu-tabel-kepala"><h2>Tabel korelasi per komoditas</h2>
     <p class="sub" id="k-sub">Korelasi antara harga dan faktor pada bulan yang sama.</p></div>
   <div class="gulir"><table class="tabel" id="x-tabel"><thead><tr id="x-kepala"></tr></thead><tbody></tbody></table></div>
-  <p class="catatan" style="padding:0 1.2rem 1rem">Angka adalah koefisien korelasi (-1 sampai +1). Ini korelasi, bukan sebab-akibat. Harga yang naik pelan dari tahun ke tahun mudah tampak berkorelasi dengan faktor yang juga berubah pelan seperti suhu dan ENSO. Anomali dihitung terhadap rata-rata bulanan 2007 sampai 2019.</p>
+  <p class="catatan" style="padding:0 1.2rem 1rem">Angka adalah koefisien korelasi (-1 sampai +1). Ini korelasi, bukan sebab-akibat. Harga yang naik pelan dari tahun ke tahun mudah tampak berkorelasi dengan faktor yang juga berubah pelan seperti suhu dan ENSO.</p>
 </section>
 {% endif %}
 {% endblock %}

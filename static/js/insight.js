@@ -1,27 +1,3 @@
-function sel(teks) {
-  return `<span class="status ${esc(teks.replace(" ", "-"))}">${esc(teks)}</span>`;
-}
-
-async function muatPeringatan() {
-  pesan("k-pesan", "Menyiapkan model, tunggu sebentar...");
-  $("k-isi").hidden = true;
-  let d;
-  try { d = await ambil("/api/keputusan", {prov: $("k-prov").value}); } catch (e) { pesan("k-pesan", e.message); return; }
-  if (d.kosong) { pesan("k-pesan", d.kosong); return; }
-  pesan("k-pesan", "");
-  $("k-isi").hidden = false;
-  $("k-judul").textContent = d.judul;
-  $("k-ringkas").textContent = d.ringkas;
-  $("k-tabel").querySelector("tbody").innerHTML = d.tabel.map((r, i) =>
-    `<tr><td><span class="nama">${i + 1}. ${esc(r.pasar)}</span><span class="prov">${esc(r.provinsi)}</span></td><td>${sel(r.prediksi)}</td>` +
-    `<td><span class="bar"><b style="width:${Math.min(100, r.peluang)}%;background:#ee7f6b"></b></span>${r.peluang.toFixed(0)}%</td>` +
-    `<td>${esc(r.alasan)}</td></tr>`).join("");
-  $("k-unduh").href = "/unduh/peringkat.csv?" + new URLSearchParams({prov: $("k-prov").value});
-}
-
-$("k-prov").addEventListener("change", muatPeringatan);
-muatPeringatan();
-
 function kartuSumber(judul, nilai, sub, ada) {
   return `<div class="kartu sumber kartu-pad"><div class="lbl">${esc(judul)}</div><div class="nilai">${esc(nilai)}</div><div class="ket">${esc(sub)}</div>` +
     `<div class="st"><i class="${ada ? "ada" : ""}"></i>${ada ? "Data tersedia" : "Belum diambil"}</div></div>`;

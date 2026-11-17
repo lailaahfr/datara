@@ -37,8 +37,8 @@ async function muatRisiko() {
   try {
     const d = await ambil("/api/keputusan", {prov: SEMUA_PROV});
     if (d.kosong || !d.tabel.length) { kotak.innerHTML = '<p class="sub" style="padding:.7rem 0">Data belum cukup untuk daftar pasar.</p>'; return; }
-    kotak.innerHTML = d.tabel.slice(0, 3).map((r) =>
-      `<a href="/insight"><span>${esc(r.pasar)}<small>${esc(r.provinsi)}</small></span><b>${r.peluang.toFixed(0)}%</b></a>`).join("");
+    kotak.innerHTML = d.tabel.slice(0, 5).map((r) =>
+      `<div><span>${esc(r.pasar)}<small>${esc(r.provinsi)}</small></span><span class="status ${esc(r.prediksi)}">${esc(r.prediksi)}</span></div>`).join("");
   } catch (e) {
     kotak.innerHTML = '<p class="sub" style="padding:.7rem 0">Daftar pasar belum bisa dimuat.</p>';
   }
